@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.QrcodePermissionMapper">
+    
+    <resultMap type="QrcodePermissionDTO" id="QrcodePermissionResult">
+        <result property="permissionId"    column="permission_id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="qrcodeId"    column="qrcode_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="editFlag"    column="edit_flag"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectQrcodePermissionVo">
+        select permission_id, item_id, category_id, qrcode_id, user_id, user_name, edit_flag, created_by, created_date, updated_by, updated_date, del_flag from qrcode_permission
+    </sql>
+
+    <select id="selectQrcodePermissionList" parameterType="QrcodePermissionDTO" resultMap="QrcodePermissionResult">
+        <include refid="selectQrcodePermissionVo"/>
+        <where>  
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="qrcodeId != null "> and qrcode_id = #{qrcodeId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="editFlag != null  and editFlag != ''"> and edit_flag = #{editFlag}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by like concat('%', #{createdBy}, '%')</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by like concat('%', #{updatedBy}, '%')</if>
+            <if test="updatedDate != null "> and updated_date = #{updatedDate}</if>
+            <if test="delFlag != null  and delFlag != ''"> and del_flag = #{delFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectQrcodePermissionByPermissionId" parameterType="Long" resultMap="QrcodePermissionResult">
+        <include refid="selectQrcodePermissionVo"/>
+        where permission_id = #{permissionId}
+    </select>
+        
+    <insert id="insertQrcodePermission" parameterType="QrcodePermissionDTO" useGeneratedKeys="true" keyProperty="permissionId">
+        insert into qrcode_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="qrcodeId != null">qrcode_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="editFlag != null and editFlag != ''">edit_flag,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="qrcodeId != null">#{qrcodeId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="editFlag != null and editFlag != ''">#{editFlag},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQrcodePermission" parameterType="QrcodePermissionDTO">
+        update qrcode_permission
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="qrcodeId != null">qrcode_id = #{qrcodeId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="editFlag != null and editFlag != ''">edit_flag = #{editFlag},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where permission_id = #{permissionId}
+    </update>
+
+    <delete id="deleteQrcodePermissionByPermissionId" parameterType="Long">
+        delete from qrcode_permission where permission_id = #{permissionId}
+    </delete>
+
+    <delete id="deleteQrcodePermissionByPermissionIds" parameterType="String">
+        delete from qrcode_permission where permission_id in 
+        <foreach item="permissionId" collection="array" open="(" separator="," close=")">
+            #{permissionId}
+        </foreach>
+    </delete>
+</mapper>

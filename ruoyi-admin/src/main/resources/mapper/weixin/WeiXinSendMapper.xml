@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.weixin.mapper.WeiXinSendMapper">
+
+    <resultMap type="WeiXinSendDTO" id="WeixinSendResult">
+        <result property="sendId"    column="send_id"    />
+        <result property="publishTime"    column="publish_time"    />
+        <result property="timingPublishTime"    column="timing_publish_time"    />
+        <result property="articleId"    column="article_id"    />
+        <result property="sendFlag"    column="send_flag"    />
+        <result property="sendFailMeassage"    column="send_fail_meassage"    />
+        <result property="bizDate"    column="biz_date"    />
+        <result property="belongAccount"    column="belong_account"    />
+        <result property="mediaId"    column="media_id"    />
+        <result property="publishId"    column="publish_id"    />
+        <result property="publishStatus"    column="publish_status"    />
+        <result property="wxArticleId"    column="wx_article_id"    />
+        <result property="count"    column="count"    />
+        <result property="failIdx"    column="fail_idx"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectWeixinSendVo">
+        select send_id, publish_time, timing_publish_time, article_id, send_flag, send_fail_meassage, biz_date, belong_account, media_id, publish_id, publish_status, wx_article_id, count, fail_idx, created_by, created_date, updated_by, updated_date, del_flag from weixin_send
+    </sql>
+
+    <select id="selectWeixinSendList" parameterType="WeiXinSendDTO" resultMap="WeixinSendResult">
+        <include refid="selectWeixinSendVo"/>
+        <where>
+            <if test="params.beginPublishTime != null and params.beginPublishTime != '' and params.endPublishTime != null and params.endPublishTime != ''"> and publish_time between #{params.beginPublishTime} and #{params.endPublishTime}</if>
+            <if test="params.beginTimingPublishTime != null and params.beginTimingPublishTime != '' and params.endTimingPublishTime != null and params.endTimingPublishTime != ''"> and timing_publish_time between #{params.beginTimingPublishTime} and #{params.endTimingPublishTime}</if>
+            <if test="articleId != null "> and article_id = #{articleId}</if>
+            <if test="sendFlag != null  and sendFlag != ''"> and send_flag = #{sendFlag}</if>
+            <if test="bizDate != null  and bizDate != ''"> and biz_date = #{bizDate}</if>
+            <if test="belongAccount != null  and belongAccount != ''"> and belong_account = #{belongAccount}</if>
+            <if test="publishStatus != null  and publishStatus != ''"> and publish_status = #{publishStatus}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="params.beginCreatedDate != null and params.beginCreatedDate != '' and params.endCreatedDate != null and params.endCreatedDate != ''"> and created_date between #{params.beginCreatedDate} and #{params.endCreatedDate}</if>
+        </where>
+    </select>
+
+    <select id="selectWeixinSendBySendId" parameterType="Long" resultMap="WeixinSendResult">
+        <include refid="selectWeixinSendVo"/>
+        where send_id = #{sendId}
+    </select>
+
+    <insert id="insertWeixinSend" parameterType="WeiXinSendDTO" useGeneratedKeys="true" keyProperty="sendId">
+        insert into weixin_send
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="publishTime != null">publish_time,</if>
+            <if test="timingPublishTime != null">timing_publish_time,</if>
+            <if test="articleId != null">article_id,</if>
+            <if test="sendFlag != null">send_flag,</if>
+            <if test="sendFailMeassage != null">send_fail_meassage,</if>
+            <if test="bizDate != null">biz_date,</if>
+            <if test="belongAccount != null">belong_account,</if>
+            <if test="mediaId != null">media_id,</if>
+            <if test="publishId != null">publish_id,</if>
+            <if test="publishStatus != null">publish_status,</if>
+            <if test="wxArticleId != null">wx_article_id,</if>
+            <if test="count != null">count,</if>
+            <if test="failIdx != null">fail_idx,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="publishTime != null">#{publishTime},</if>
+            <if test="timingPublishTime != null">#{timingPublishTime},</if>
+            <if test="articleId != null">#{articleId},</if>
+            <if test="sendFlag != null">#{sendFlag},</if>
+            <if test="sendFailMeassage != null">#{sendFailMeassage},</if>
+            <if test="bizDate != null">#{bizDate},</if>
+            <if test="belongAccount != null">#{belongAccount},</if>
+            <if test="mediaId != null">#{mediaId},</if>
+            <if test="publishId != null">#{publishId},</if>
+            <if test="publishStatus != null">#{publishStatus},</if>
+            <if test="wxArticleId != null">#{wxArticleId},</if>
+            <if test="count != null">#{count},</if>
+            <if test="failIdx != null">#{failIdx},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWeixinSend" parameterType="WeiXinSendDTO">
+        update weixin_send
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="publishTime != null">publish_time = #{publishTime},</if>
+            <if test="timingPublishTime != null">timing_publish_time = #{timingPublishTime},</if>
+            <if test="articleId != null">article_id = #{articleId},</if>
+            <if test="sendFlag != null">send_flag = #{sendFlag},</if>
+            <if test="sendFailMeassage != null">send_fail_meassage = #{sendFailMeassage},</if>
+            <if test="bizDate != null">biz_date = #{bizDate},</if>
+            <if test="belongAccount != null">belong_account = #{belongAccount},</if>
+            <if test="mediaId != null">media_id = #{mediaId},</if>
+            <if test="publishId != null">publish_id = #{publishId},</if>
+            <if test="publishStatus != null">publish_status = #{publishStatus},</if>
+            <if test="wxArticleId != null">wx_article_id = #{wxArticleId},</if>
+            <if test="count != null">count = #{count},</if>
+            <if test="failIdx != null">fail_idx = #{failIdx},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where send_id = #{sendId}
+    </update>
+
+    <delete id="deleteWeixinSendBySendId" parameterType="Long">
+        delete from weixin_send where send_id = #{sendId}
+    </delete>
+
+    <delete id="deleteWeixinSendBySendIds" parameterType="String">
+        delete from weixin_send where send_id in
+        <foreach item="sendId" collection="array" open="(" separator="," close=")">
+            #{sendId}
+        </foreach>
+    </delete>
+</mapper>

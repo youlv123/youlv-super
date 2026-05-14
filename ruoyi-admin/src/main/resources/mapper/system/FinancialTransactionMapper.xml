@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FinancialTransactionMapper">
+
+    <resultMap type="FinancialTransaction" id="FinancialTransactionResult">
+        <result property="transactionId"    column="transaction_id"    />
+        <result property="financialProductCode"    column="financial_product_code"    />
+        <result property="financialProductName"    column="financial_product_name"    />
+        <result property="financialGroup"    column="financial_group"    />
+        <result property="transType"    column="trans_type"    />
+        <result property="transTime"    column="trans_time"    />
+        <result property="transShares"    column="trans_shares"    />
+        <result property="transPrincipal"    column="trans_principal"    />
+        <result property="transNetValue"    column="trans_net_value"    />
+        <result property="transFee"    column="trans_fee"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectFinancialTransactionVo">
+        select transaction_id, financial_product_code, financial_product_name, financial_group, trans_type, trans_time, trans_shares, trans_principal, trans_net_value, trans_fee, remark, created_by, created_date, updated_by, updated_date from financial_transaction
+    </sql>
+
+    <select id="selectFinancialTransactionList" parameterType="FinancialTransaction" resultMap="FinancialTransactionResult">
+        <include refid="selectFinancialTransactionVo"/>
+        <where>
+            <if test="financialProductCode != null  and financialProductCode != ''"> and financial_product_code = #{financialProductCode}</if>
+            <if test="financialProductName != null  and financialProductName != ''"> and financial_product_name like concat('%', #{financialProductName}, '%')</if>
+            <if test="financialGroup != null  and financialGroup != ''"> and financial_group = #{financialGroup}</if>
+            <if test="transType != null "> and trans_type = #{transType}</if>
+            <if test="params != null and params.beginTransTime != null and params.beginTransTime != '' and params.endTransTime != null and params.endTransTime != ''"> and trans_time between #{params.beginTransTime} and #{params.endTransTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFinancialTransactionByTransactionId" parameterType="Long" resultMap="FinancialTransactionResult">
+        <include refid="selectFinancialTransactionVo"/>
+        where transaction_id = #{transactionId}
+    </select>
+
+    <insert id="insertFinancialTransaction" parameterType="FinancialTransaction" useGeneratedKeys="true" keyProperty="transactionId">
+        insert into financial_transaction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="financialProductCode != null and financialProductCode != ''">financial_product_code,</if>
+            <if test="financialProductName != null and financialProductName != ''">financial_product_name,</if>
+            <if test="financialGroup != null">financial_group,</if>
+            <if test="transType != null">trans_type,</if>
+            <if test="transTime != null">trans_time,</if>
+            <if test="transShares != null">trans_shares,</if>
+            <if test="transPrincipal != null">trans_principal,</if>
+            <if test="transNetValue != null">trans_net_value,</if>
+            <if test="transFee != null">trans_fee,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="financialProductCode != null and financialProductCode != ''">#{financialProductCode},</if>
+            <if test="financialProductName != null and financialProductName != ''">#{financialProductName},</if>
+            <if test="financialGroup != null">#{financialGroup},</if>
+            <if test="transType != null">#{transType},</if>
+            <if test="transTime != null">#{transTime},</if>
+            <if test="transShares != null">#{transShares},</if>
+            <if test="transPrincipal != null">#{transPrincipal},</if>
+            <if test="transNetValue != null">#{transNetValue},</if>
+            <if test="transFee != null">#{transFee},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFinancialTransaction" parameterType="FinancialTransaction">
+        update financial_transaction
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="financialProductCode != null and financialProductCode != ''">financial_product_code = #{financialProductCode},</if>
+            <if test="financialProductName != null and financialProductName != ''">financial_product_name = #{financialProductName},</if>
+            <if test="financialGroup != null">financial_group = #{financialGroup},</if>
+            <if test="transType != null">trans_type = #{transType},</if>
+            <if test="transTime != null">trans_time = #{transTime},</if>
+            <if test="transShares != null">trans_shares = #{transShares},</if>
+            <if test="transPrincipal != null">trans_principal = #{transPrincipal},</if>
+            <if test="transNetValue != null">trans_net_value = #{transNetValue},</if>
+            <if test="transFee != null">trans_fee = #{transFee},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where transaction_id = #{transactionId}
+    </update>
+
+    <delete id="deleteFinancialTransactionByTransactionId" parameterType="Long">
+        delete from financial_transaction where transaction_id = #{transactionId}
+    </delete>
+
+    <delete id="deleteFinancialTransactionByTransactionIds" parameterType="String">
+        delete from financial_transaction where transaction_id in
+        <foreach item="transactionId" collection="array" open="(" separator="," close=")">
+            #{transactionId}
+        </foreach>
+    </delete>
+</mapper>

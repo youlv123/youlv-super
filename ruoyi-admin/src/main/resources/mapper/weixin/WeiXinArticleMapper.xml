@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.weixin.mapper.WeiXinArticleMapper">
+
+    <resultMap type="WeixinArticleDTO" id="WeixinArticleResult">
+        <result property="articleId"    column="article_id"    />
+        <result property="title"    column="title"    />
+        <result property="author"    column="author"    />
+        <result property="digest"    column="digest"    />
+        <result property="description"    column="description"    />
+        <result property="content"    column="content"    />
+        <result property="contentSourceUrl"    column="content_source_url"    />
+        <result property="thumbMediaId"    column="thumb_media_id"    />
+        <result property="coverImage"    column="cover_image"    />
+        <result property="needOpenComment"    column="need_open_comment"    />
+        <result property="onlyFansCanComment"    column="only_fans_can_comment"    />
+        <result property="articleType"    column="article_type"    />
+        <result property="articleWordCount"    column="article_word_count"    />
+        <result property="publishTime"    column="publish_time"    />
+        <result property="templateId"    column="template_id"    />
+        <result property="readCount"    column="read_count"    />
+        <result property="likeCount"    column="like_count"    />
+        <result property="commentCount"    column="comment_count"    />
+        <result property="shareCount"    column="share_count"    />
+        <result property="automaticAuditFlag"    column="automatic_audit_flag"    />
+        <result property="automaticAuditOpinion"    column="automatic_audit_opinion"    />
+        <result property="manualAuditFlag"    column="manual_audit_flag"    />
+        <result property="manualAuditOpinion"    column="manual_audit_opinion"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectWeixinArticleVo">
+        select article_id, title, author, digest, description, content, content_source_url, thumb_media_id, cover_image, need_open_comment, only_fans_can_comment, article_type, article_word_count, publish_time, template_id, read_count, like_count, comment_count, share_count, automatic_audit_flag, automatic_audit_opinion, manual_audit_flag, manual_audit_opinion, created_by, created_date, updated_by, updated_date, del_flag from weixin_article
+    </sql>
+
+    <select id="selectWeixinArticleList" parameterType="WeixinArticleDTO" resultMap="WeixinArticleResult">
+        <include refid="selectWeixinArticleVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="author != null  and author != ''"> and author like concat('%', #{author}, '%')</if>
+            <if test="digest != null  and digest != ''"> and digest like concat('%', #{digest}, '%')</if>
+            <if test="description != null  and description != ''"> and description like concat('%', #{description}, '%')</if>
+            <if test="needOpenComment != null  and needOpenComment != ''"> and need_open_comment = #{needOpenComment}</if>
+            <if test="onlyFansCanComment != null  and onlyFansCanComment != ''"> and only_fans_can_comment = #{onlyFansCanComment}</if>
+            <if test="articleType != null  and articleType != ''"> and article_type = #{articleType}</if>
+            <if test="automaticAuditFlag != null  and automaticAuditFlag != ''"> and automatic_audit_flag = #{automaticAuditFlag}</if>
+            <if test="manualAuditFlag != null  and manualAuditFlag != ''"> and manual_audit_flag = #{manualAuditFlag}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by like concat('%', #{createdBy}, '%')</if>
+            <if test="params.beginCreatedDate != null and params.beginCreatedDate != '' and params.endCreatedDate != null and params.endCreatedDate != ''"> and created_date between #{params.beginCreatedDate} and #{params.endCreatedDate}</if>
+        </where>
+    </select>
+
+    <select id="selectWeixinArticleByArticleId" parameterType="Long" resultMap="WeixinArticleResult">
+        <include refid="selectWeixinArticleVo"/>
+        where article_id = #{articleId}
+    </select>
+
+    <insert id="insertWeixinArticle" parameterType="WeixinArticleDTO" useGeneratedKeys="true" keyProperty="articleId">
+        insert into weixin_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="author != null">author,</if>
+            <if test="digest != null">digest,</if>
+            <if test="description != null">description,</if>
+            <if test="content != null">content,</if>
+            <if test="contentSourceUrl != null">content_source_url,</if>
+            <if test="thumbMediaId != null">thumb_media_id,</if>
+            <if test="coverImage != null">cover_image,</if>
+            <if test="needOpenComment != null">need_open_comment,</if>
+            <if test="onlyFansCanComment != null">only_fans_can_comment,</if>
+            <if test="articleType != null">article_type,</if>
+            <if test="articleWordCount != null">article_word_count,</if>
+            <if test="publishTime != null">publish_time,</if>
+            <if test="templateId != null">template_id,</if>
+            <if test="readCount != null">read_count,</if>
+            <if test="likeCount != null">like_count,</if>
+            <if test="commentCount != null">comment_count,</if>
+            <if test="shareCount != null">share_count,</if>
+            <if test="automaticAuditFlag != null">automatic_audit_flag,</if>
+            <if test="automaticAuditOpinion != null">automatic_audit_opinion,</if>
+            <if test="manualAuditFlag != null">manual_audit_flag,</if>
+            <if test="manualAuditOpinion != null">manual_audit_opinion,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="author != null">#{author},</if>
+            <if test="digest != null">#{digest},</if>
+            <if test="description != null">#{description},</if>
+            <if test="content != null">#{content},</if>
+            <if test="contentSourceUrl != null">#{contentSourceUrl},</if>
+            <if test="thumbMediaId != null">#{thumbMediaId},</if>
+            <if test="coverImage != null">#{coverImage},</if>
+            <if test="needOpenComment != null">#{needOpenComment},</if>
+            <if test="onlyFansCanComment != null">#{onlyFansCanComment},</if>
+            <if test="articleType != null">#{articleType},</if>
+            <if test="articleWordCount != null">#{articleWordCount},</if>
+            <if test="publishTime != null">#{publishTime},</if>
+            <if test="templateId != null">#{templateId},</if>
+            <if test="readCount != null">#{readCount},</if>
+            <if test="likeCount != null">#{likeCount},</if>
+            <if test="commentCount != null">#{commentCount},</if>
+            <if test="shareCount != null">#{shareCount},</if>
+            <if test="automaticAuditFlag != null">#{automaticAuditFlag},</if>
+            <if test="automaticAuditOpinion != null">#{automaticAuditOpinion},</if>
+            <if test="manualAuditFlag != null">#{manualAuditFlag},</if>
+            <if test="manualAuditOpinion != null">#{manualAuditOpinion},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWeixinArticle" parameterType="WeixinArticleDTO">
+        update weixin_article
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="author != null">author = #{author},</if>
+            <if test="digest != null">digest = #{digest},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="contentSourceUrl != null">content_source_url = #{contentSourceUrl},</if>
+            <if test="thumbMediaId != null">thumb_media_id = #{thumbMediaId},</if>
+            <if test="coverImage != null">cover_image = #{coverImage},</if>
+            <if test="needOpenComment != null">need_open_comment = #{needOpenComment},</if>
+            <if test="onlyFansCanComment != null">only_fans_can_comment = #{onlyFansCanComment},</if>
+            <if test="articleType != null">article_type = #{articleType},</if>
+            <if test="articleWordCount != null">article_word_count = #{articleWordCount},</if>
+            <if test="publishTime != null">publish_time = #{publishTime},</if>
+            <if test="templateId != null">template_id = #{templateId},</if>
+            <if test="readCount != null">read_count = #{readCount},</if>
+            <if test="likeCount != null">like_count = #{likeCount},</if>
+            <if test="commentCount != null">comment_count = #{commentCount},</if>
+            <if test="shareCount != null">share_count = #{shareCount},</if>
+            <if test="automaticAuditFlag != null">automatic_audit_flag = #{automaticAuditFlag},</if>
+            <if test="automaticAuditOpinion != null">automatic_audit_opinion = #{automaticAuditOpinion},</if>
+            <if test="manualAuditFlag != null">manual_audit_flag = #{manualAuditFlag},</if>
+            <if test="manualAuditOpinion != null">manual_audit_opinion = #{manualAuditOpinion},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where article_id = #{articleId}
+    </update>
+
+    <delete id="deleteWeixinArticleByArticleId" parameterType="Long">
+        delete from weixin_article where article_id = #{articleId}
+    </delete>
+
+    <delete id="deleteWeixinArticleByArticleIds" parameterType="String">
+        delete from weixin_article where article_id in
+        <foreach item="articleId" collection="array" open="(" separator="," close=")">
+            #{articleId}
+        </foreach>
+    </delete>
+
+    <select id="selectWeixinArticleAll" resultMap="WeixinArticleResult">
+        <include refid="selectWeixinArticleVo"/>
+        where automatic_audit_flag='1' or manual_audit_flag='1'
+    </select>
+</mapper>

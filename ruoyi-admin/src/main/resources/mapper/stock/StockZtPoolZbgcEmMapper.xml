@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.stock.mapper.StockZtPoolZbgcEmMapper">
+    
+    <resultMap type="StockZtPoolZbgcEm" id="StockZtPoolZbgcEmResult">
+        <result property="zbgcId"    column="zbgc_id"    />
+        <result property="serialNo"    column="serial_no"    />
+        <result property="stockCode"    column="stock_code"    />
+        <result property="stockName"    column="stock_name"    />
+        <result property="changePercent"    column="change_percent"    />
+        <result property="latestPrice"    column="latest_price"    />
+        <result property="priceLimitUp"    column="price_limit_up"    />
+        <result property="turnover"    column="turnover"    />
+        <result property="circulatingMarketValue"    column="circulating_market_value"    />
+        <result property="totalMarketValue"    column="total_market_value"    />
+        <result property="turnoverRate"    column="turnover_rate"    />
+        <result property="growthRate"    column="growth_rate"    />
+        <result property="firstCoverDate"    column="first_cover_date"    />
+        <result property="bizDate"    column="biz_date"    />
+        <result property="explosionNum"    column="explosion_num"    />
+        <result property="priceLimitStatistics"    column="price_limit_Statistics"    />
+        <result property="amplitude"    column="amplitude"    />
+        <result property="industry"    column="industry"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectStockZtPoolZbgcEmVo">
+        select zbgc_id, serial_no, stock_code, stock_name, change_percent, latest_price, price_limit_up, turnover, circulating_market_value, total_market_value, turnover_rate, growth_rate, first_cover_date, biz_date, explosion_num, price_limit_Statistics, amplitude, industry, created_by, created_date, updated_by, updated_date from stock_zt_pool_zbgc_em
+    </sql>
+
+    <select id="selectStockZtPoolZbgcEmList" parameterType="StockZtPoolZbgcEm" resultMap="StockZtPoolZbgcEmResult">
+        <include refid="selectStockZtPoolZbgcEmVo"/>
+        <where>  
+            <if test="stockCode != null  and stockCode != ''"> and stock_code = #{stockCode}</if>
+            <if test="stockName != null  and stockName != ''"> and stock_name like concat('%', #{stockName}, '%')</if>
+            <if test="bizDate != null  and bizDate != ''"> and biz_date = #{bizDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectStockZtPoolZbgcEmByZbgcId" parameterType="Long" resultMap="StockZtPoolZbgcEmResult">
+        <include refid="selectStockZtPoolZbgcEmVo"/>
+        where zbgc_id = #{zbgcId}
+    </select>
+        
+    <insert id="insertStockZtPoolZbgcEm" parameterType="StockZtPoolZbgcEm" useGeneratedKeys="true" keyProperty="zbgcId">
+        insert into stock_zt_pool_zbgc_em
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serialNo != null">serial_no,</if>
+            <if test="stockCode != null">stock_code,</if>
+            <if test="stockName != null">stock_name,</if>
+            <if test="changePercent != null">change_percent,</if>
+            <if test="latestPrice != null">latest_price,</if>
+            <if test="priceLimitUp != null">price_limit_up,</if>
+            <if test="turnover != null">turnover,</if>
+            <if test="circulatingMarketValue != null">circulating_market_value,</if>
+            <if test="totalMarketValue != null">total_market_value,</if>
+            <if test="turnoverRate != null">turnover_rate,</if>
+            <if test="growthRate != null">growth_rate,</if>
+            <if test="firstCoverDate != null">first_cover_date,</if>
+            <if test="bizDate != null">biz_date,</if>
+            <if test="explosionNum != null">explosion_num,</if>
+            <if test="priceLimitStatistics != null">price_limit_Statistics,</if>
+            <if test="amplitude != null">amplitude,</if>
+            <if test="industry != null">industry,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serialNo != null">#{serialNo},</if>
+            <if test="stockCode != null">#{stockCode},</if>
+            <if test="stockName != null">#{stockName},</if>
+            <if test="changePercent != null">#{changePercent},</if>
+            <if test="latestPrice != null">#{latestPrice},</if>
+            <if test="priceLimitUp != null">#{priceLimitUp},</if>
+            <if test="turnover != null">#{turnover},</if>
+            <if test="circulatingMarketValue != null">#{circulatingMarketValue},</if>
+            <if test="totalMarketValue != null">#{totalMarketValue},</if>
+            <if test="turnoverRate != null">#{turnoverRate},</if>
+            <if test="growthRate != null">#{growthRate},</if>
+            <if test="firstCoverDate != null">#{firstCoverDate},</if>
+            <if test="bizDate != null">#{bizDate},</if>
+            <if test="explosionNum != null">#{explosionNum},</if>
+            <if test="priceLimitStatistics != null">#{priceLimitStatistics},</if>
+            <if test="amplitude != null">#{amplitude},</if>
+            <if test="industry != null">#{industry},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStockZtPoolZbgcEm" parameterType="StockZtPoolZbgcEm">
+        update stock_zt_pool_zbgc_em
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serialNo != null">serial_no = #{serialNo},</if>
+            <if test="stockCode != null">stock_code = #{stockCode},</if>
+            <if test="stockName != null">stock_name = #{stockName},</if>
+            <if test="changePercent != null">change_percent = #{changePercent},</if>
+            <if test="latestPrice != null">latest_price = #{latestPrice},</if>
+            <if test="priceLimitUp != null">price_limit_up = #{priceLimitUp},</if>
+            <if test="turnover != null">turnover = #{turnover},</if>
+            <if test="circulatingMarketValue != null">circulating_market_value = #{circulatingMarketValue},</if>
+            <if test="totalMarketValue != null">total_market_value = #{totalMarketValue},</if>
+            <if test="turnoverRate != null">turnover_rate = #{turnoverRate},</if>
+            <if test="growthRate != null">growth_rate = #{growthRate},</if>
+            <if test="firstCoverDate != null">first_cover_date = #{firstCoverDate},</if>
+            <if test="bizDate != null">biz_date = #{bizDate},</if>
+            <if test="explosionNum != null">explosion_num = #{explosionNum},</if>
+            <if test="priceLimitStatistics != null">price_limit_Statistics = #{priceLimitStatistics},</if>
+            <if test="amplitude != null">amplitude = #{amplitude},</if>
+            <if test="industry != null">industry = #{industry},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where zbgc_id = #{zbgcId}
+    </update>
+
+    <delete id="deleteStockZtPoolZbgcEmByZbgcId" parameterType="Long">
+        delete from stock_zt_pool_zbgc_em where zbgc_id = #{zbgcId}
+    </delete>
+
+    <delete id="deleteStockZtPoolZbgcEmByZbgcIds" parameterType="String">
+        delete from stock_zt_pool_zbgc_em where zbgc_id in 
+        <foreach item="zbgcId" collection="array" open="(" separator="," close=")">
+            #{zbgcId}
+        </foreach>
+    </delete>
+</mapper>

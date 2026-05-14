@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.QrcodeMapper">
+
+    <resultMap type="QrcodeDTO" id="QrcodeResult">
+        <result property="qrcodeId"    column="qrcode_id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="isBatchBinding"    column="is_batch_binding"    />
+        <result property="content"    column="content"    />
+        <result property="status"    column="status"    />
+        <result property="sharingScope"    column="sharing_scope"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectQrcodeVo">
+        select qrcode_id, item_id, category_id, is_batch_binding, content, status, sharing_scope, created_by, created_date, updated_by, updated_date, del_flag from qrcode
+    </sql>
+
+    <select id="selectQrcodeList" parameterType="QrcodeDTO" resultMap="QrcodeResult">
+        <include refid="selectQrcodeVo"/>
+        <where>  
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="isBatchBinding != null  and isBatchBinding != ''"> and is_batch_binding = #{isBatchBinding}</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="sharingScope != null  and sharingScope != ''"> and sharing_scope = #{sharingScope}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="params.beginCreatedDate != null and params.beginCreatedDate != '' and params.endCreatedDate != null and params.endCreatedDate != ''"> and created_date between #{params.beginCreatedDate} and #{params.endCreatedDate}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+            <if test="params.beginUpdatedDate != null and params.beginUpdatedDate != '' and params.endUpdatedDate != null and params.endUpdatedDate != ''"> and updated_date between #{params.beginUpdatedDate} and #{params.endUpdatedDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectQrcodeByQrcodeId" parameterType="Long" resultMap="QrcodeResult">
+        <include refid="selectQrcodeVo"/>
+        where qrcode_id = #{qrcodeId}
+    </select>
+        
+    <insert id="insertQrcode" parameterType="QrcodeDTO" useGeneratedKeys="true" keyProperty="qrcodeId">
+        insert into qrcode
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="isBatchBinding != null">is_batch_binding,</if>
+            <if test="content != null">content,</if>
+            <if test="status != null">status,</if>
+            <if test="sharingScope != null">sharing_scope,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="isBatchBinding != null">#{isBatchBinding},</if>
+            <if test="content != null">#{content},</if>
+            <if test="status != null">#{status},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQrcode" parameterType="QrcodeDTO">
+        update qrcode
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="isBatchBinding != null">is_batch_binding = #{isBatchBinding},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="sharingScope != null">sharing_scope = #{sharingScope},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where qrcode_id = #{qrcodeId}
+    </update>
+
+    <delete id="deleteQrcodeByQrcodeId" parameterType="Long">
+        delete from qrcode where qrcode_id = #{qrcodeId}
+    </delete>
+
+    <delete id="deleteQrcodeByQrcodeIds" parameterType="String">
+        delete from qrcode where qrcode_id in
+        <foreach item="qrcodeId" collection="array" open="(" separator="," close=")">
+            #{qrcodeId}
+        </foreach>
+    </delete>
+</mapper>

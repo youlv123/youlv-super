@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.weixin.mapper.WeiXinImageMapper">
+
+    <resultMap type="WeiXinImageDTO" id="WeixinImageResult">
+        <result property="imageId" column="image_id"/>
+        <result property="imageName" column="image_name"/>
+        <result property="imageSize" column="image_size"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="objectKey" column="object_key"/>
+        <result property="imageType" column="image_type"/>
+        <result property="imageDescription" column="image_description"/>
+        <result property="uploadPlatform" column="upload_platform"/>
+        <result property="imageSource" column="image_source"/>
+        <result property="useFlag" column="use_flag"/>
+        <result property="automaticAuditFlag" column="automatic_audit_flag"/>
+        <result property="automaticAuditOpinion" column="automatic_audit_opinion"/>
+        <result property="manualAuditFlag" column="manual_audit_flag"/>
+        <result property="manualAuditOpinion" column="manual_audit_opinion"/>
+        <result property="weixinFlag" column="weixin_flag"/>
+        <result property="mediaId" column="media_id"/>
+        <result property="weixinUrl" column="weixin_url"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdDate" column="created_date"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="updatedDate" column="updated_date"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="selectWeixinImageVo">
+        select image_id,
+               image_name,
+               image_size,
+               image_url,
+               object_key,
+               image_type,
+               image_description,
+               upload_platform,
+               image_source,
+               use_flag,
+               automatic_audit_flag,
+               automatic_audit_opinion,
+               manual_audit_flag,
+               manual_audit_opinion,
+               weixin_flag,
+               media_id,
+               weixin_url,
+               created_by,
+               created_date,
+               updated_by,
+               updated_date,
+               del_flag
+        from weixin_image
+    </sql>
+
+    <select id="selectWeixinImageList" parameterType="WeiXinImageDTO" resultMap="WeixinImageResult">
+        <include refid="selectWeixinImageVo"/>
+        <where>
+            <if test="imageName != null  and imageName != ''">and image_name like concat('%', #{imageName}, '%')</if>
+            <if test="imageSize != null ">and image_size = #{imageSize}</if>
+            <if test="imageUrl != null  and imageUrl != ''">and image_url = #{imageUrl}</if>
+            <if test="objectKey != null  and objectKey != ''">and object_key = #{objectKey}</if>
+            <if test="imageType != null  and imageType != ''">and image_type = #{imageType}</if>
+            <if test="imageDescription != null  and imageDescription != ''">and image_description =
+                #{imageDescription}
+            </if>
+            <if test="uploadPlatform != null  and uploadPlatform != ''">and upload_platform = #{uploadPlatform}</if>
+            <if test="imageSource != null  and imageSource != ''">and image_source = #{imageSource}</if>
+            <if test="useFlag != null  and useFlag != ''">and use_flag = #{useFlag}</if>
+            <if test="automaticAuditFlag != null  and automaticAuditFlag != ''">and automatic_audit_flag =
+                #{automaticAuditFlag}
+            </if>
+            <if test="automaticAuditOpinion != null  and automaticAuditOpinion != ''">and automatic_audit_opinion =
+                #{automaticAuditOpinion}
+            </if>
+            <if test="manualAuditFlag != null  and manualAuditFlag != ''">and manual_audit_flag = #{manualAuditFlag}
+            </if>
+            <if test="manualAuditOpinion != null  and manualAuditOpinion != ''">and manual_audit_opinion =
+                #{manualAuditOpinion}
+            </if>
+            <if test="weixinFlag != null  and weixinFlag != ''">and weixin_flag = #{weixinFlag}</if>
+            <if test="mediaId != null  and mediaId != ''">and media_id = #{mediaId}</if>
+            <if test="weixinUrl != null  and weixinUrl != ''">and weixin_url = #{weixinUrl}</if>
+            <if test="createdBy != null  and createdBy != ''">and created_by = #{createdBy}</if>
+            <if test="createdDate != null ">and created_date = #{createdDate}</if>
+            <if test="updatedBy != null  and updatedBy != ''">and updated_by = #{updatedBy}</if>
+            <if test="updatedDate != null ">and updated_date = #{updatedDate}</if>
+        </where>
+    </select>
+
+    <select id="selectWeixinImageById" parameterType="Long" resultMap="WeixinImageResult">
+        <include refid="selectWeixinImageVo"/>
+        where image_id = #{imageId}
+    </select>
+
+    <insert id="insertWeixinImage" parameterType="WeiXinImageDTO" useGeneratedKeys="true" keyProperty="imageId">
+        insert into weixin_image
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imageName != null">image_name,</if>
+            <if test="imageSize != null">image_size,</if>
+            <if test="imageUrl != null and imageUrl != ''">image_url,</if>
+            <if test="objectKey != null and objectKey != ''">object_key,</if>
+            <if test="imageType != null">image_type,</if>
+            <if test="imageDescription != null">image_description,</if>
+            <if test="uploadPlatform != null">upload_platform,</if>
+            <if test="imageSource != null">image_source,</if>
+            <if test="useFlag != null">use_flag,</if>
+            <if test="automaticAuditFlag != null">automatic_audit_flag,</if>
+            <if test="automaticAuditOpinion != null">automatic_audit_opinion,</if>
+            <if test="manualAuditFlag != null">manual_audit_flag,</if>
+            <if test="manualAuditOpinion != null">manual_audit_opinion,</if>
+            <if test="weixinFlag != null">weixin_flag,</if>
+            <if test="mediaId != null">media_id,</if>
+            <if test="weixinUrl != null">weixin_url,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imageName != null">#{imageName},</if>
+            <if test="imageSize != null">#{imageSize},</if>
+            <if test="imageUrl != null and imageUrl != ''">#{imageUrl},</if>
+            <if test="objectKey != null and objectKey != ''">#{objectKey},</if>
+            <if test="imageType != null">#{imageType},</if>
+            <if test="imageDescription != null">#{imageDescription},</if>
+            <if test="uploadPlatform != null">#{uploadPlatform},</if>
+            <if test="imageSource != null">#{imageSource},</if>
+            <if test="useFlag != null">#{useFlag},</if>
+            <if test="automaticAuditFlag != null">#{automaticAuditFlag},</if>
+            <if test="automaticAuditOpinion != null">#{automaticAuditOpinion},</if>
+            <if test="manualAuditFlag != null">#{manualAuditFlag},</if>
+            <if test="manualAuditOpinion != null">#{manualAuditOpinion},</if>
+            <if test="weixinFlag != null">#{weixinFlag},</if>
+            <if test="mediaId != null">#{mediaId},</if>
+            <if test="weixinUrl != null">#{weixinUrl},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWeixinImage" parameterType="WeiXinImageDTO">
+        update weixin_image
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imageName != null">image_name = #{imageName},</if>
+            <if test="imageSize != null">image_size = #{imageSize},</if>
+            <if test="imageUrl != null and imageUrl != ''">image_url = #{imageUrl},</if>
+            <if test="objectKey != null and objectKey != ''">object_key = #{objectKey},</if>
+            <if test="imageType != null">image_type = #{imageType},</if>
+            <if test="imageDescription != null">image_description = #{imageDescription},</if>
+            <if test="uploadPlatform != null">upload_platform = #{uploadPlatform},</if>
+            <if test="imageSource != null">image_source = #{imageSource},</if>
+            <if test="useFlag != null">use_flag = #{useFlag},</if>
+            <if test="automaticAuditFlag != null">automatic_audit_flag = #{automaticAuditFlag},</if>
+            <if test="automaticAuditOpinion != null">automatic_audit_opinion = #{automaticAuditOpinion},</if>
+            <if test="manualAuditFlag != null">manual_audit_flag = #{manualAuditFlag},</if>
+            <if test="manualAuditOpinion != null">manual_audit_opinion = #{manualAuditOpinion},</if>
+            <if test="weixinFlag != null">weixin_flag = #{weixinFlag},</if>
+            <if test="mediaId != null">media_id = #{mediaId},</if>
+            <if test="weixinUrl != null">weixin_url = #{weixinUrl},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where image_id = #{imageId}
+    </update>
+
+    <delete id="deleteWeixinImageById" parameterType="Long">
+        delete
+        from weixin_image
+        where image_id = #{imageId}
+    </delete>
+
+    <delete id="deleteWeixinImageByIds" parameterType="java.lang.String">
+        delete from weixin_image where image_id in
+        <foreach item="imageId" collection="array" open="(" separator="," close=")">
+            #{imageId}
+        </foreach>
+    </delete>
+
+
+    <select id="selectWeixinAll" resultMap="WeixinImageResult">
+        <include refid="selectWeixinImageVo"/>
+        where automatic_audit_flag='1' and manual_audit_flag='2'
+              and weixin_flag='0' and del_flag='0'
+    </select>
+
+    <select id="selectByUpdateTime" resultMap="WeixinImageResult">
+        <include refid="selectWeixinImageVo"/>
+        where updated_date >= #{updatedDate}
+        <if test="imageId != null">
+            and image_id > #{imageId}
+        </if>
+        order by image_id
+    </select>
+</mapper>

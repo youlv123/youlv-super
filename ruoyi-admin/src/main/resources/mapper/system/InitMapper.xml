@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.InitMapper">
+
+    <resultMap type="ItemImageDTO" id="ItemImageResult">
+        <result property="imageId"    column="image_id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="imageName"    column="image_name"    />
+        <result property="imageSize"    column="image_size"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="objectKey"    column="object_key"    />
+        <result property="uploadPlatform"    column="upload_platform"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectItemImageVo">
+        select image_id, item_id, image_name, image_size, image_url, object_key, upload_platform, created_by, created_date, updated_by, updated_date, del_flag from item_image
+    </sql>
+
+
+    <select id="selectItem" parameterType="java.lang.Long" resultMap="ItemImageResult">
+        <include refid="selectItemImageVo"/>
+        where 1=1
+        <if test="maxId != null">
+            and image_id > #{maxId}
+        </if>
+        order by image_id
+    </select>
+
+</mapper>

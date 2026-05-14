@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.stock.mapper.StockDeliveryNoteMapper">
+
+    <resultMap type="StockDeliveryNoteDTO" id="StockDeliveryNoteResult">
+        <result property="stockId"    column="stock_id"    />
+        <result property="transactionDate"    column="transaction_date"    />
+        <result property="transactionType"    column="transaction_type"    />
+        <result property="profitFlag"    column="profit_flag"    />
+        <result property="stockCode"    column="stock_code"    />
+        <result property="stockName"    column="stock_name"    />
+        <result property="stockQuantity"    column="stock_quantity"    />
+        <result property="sellableQuantity"    column="sellable_quantity"    />
+        <result property="costPrice"    column="cost_price"    />
+        <result property="currentPrice"    column="current_price"    />
+        <result property="profitLossRatio"    column="profit_loss_ratio"    />
+        <result property="referenceProfitLoss"    column="reference_profit_loss"    />
+        <result property="referenceMarketValue"    column="reference_market_value"    />
+        <result property="tradingMarket"    column="trading_market"    />
+        <result property="floatingCapitalName"    column="floating_capital_name"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+        <result property="availableAmount"    column="available_amount"    />
+        <result property="stockValue"    column="stock_value"    />
+        <result property="totalAssets"    column="total_assets"    />
+    </resultMap>
+
+    <sql id="selectStockDeliveryNoteVo">
+        select stock_id, transaction_date, transaction_type, profit_flag, stock_code, stock_name, stock_quantity, sellable_quantity, cost_price, current_price, profit_loss_ratio, reference_profit_loss, reference_market_value, trading_market, floating_capital_name, remark, created_by, created_date, updated_by, updated_date, available_amount, stock_value, total_assets from stock_delivery_note
+    </sql>
+
+    <select id="selectStockDeliveryNoteList" parameterType="StockDeliveryNoteDTO" resultMap="StockDeliveryNoteResult">
+        <include refid="selectStockDeliveryNoteVo"/>
+        <where>
+            <if test="transactionDate != null "> and transaction_date = #{transactionDate}</if>
+            <if test="transactionType != null  and transactionType != ''"> and transaction_type = #{transactionType}</if>
+            <if test="profitFlag != null  and profitFlag != ''"> and profit_flag = #{profitFlag}</if>
+            <if test="stockCode != null  and stockCode != ''"> and stock_code = #{stockCode}</if>
+            <if test="stockName != null  and stockName != ''"> and stock_name like concat('%', #{stockName}, '%')</if>
+            <if test="floatingCapitalName != null  and floatingCapitalName != ''"> and floating_capital_name = #{floatingCapitalName}</if>
+        </where>
+    </select>
+
+    <select id="selectStockDeliveryNoteByStockId" parameterType="Long" resultMap="StockDeliveryNoteResult">
+        <include refid="selectStockDeliveryNoteVo"/>
+        where stock_id = #{stockId}
+    </select>
+
+    <insert id="insertStockDeliveryNote" parameterType="StockDeliveryNoteDTO" useGeneratedKeys="true" keyProperty="stockId">
+        insert into stock_delivery_note
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="transactionDate != null">transaction_date,</if>
+            <if test="transactionType != null">transaction_type,</if>
+            <if test="profitFlag != null">profit_flag,</if>
+            <if test="stockCode != null">stock_code,</if>
+            <if test="stockName != null">stock_name,</if>
+            <if test="stockQuantity != null">stock_quantity,</if>
+            <if test="sellableQuantity != null">sellable_quantity,</if>
+            <if test="costPrice != null">cost_price,</if>
+            <if test="currentPrice != null">current_price,</if>
+            <if test="profitLossRatio != null">profit_loss_ratio,</if>
+            <if test="referenceProfitLoss != null">reference_profit_loss,</if>
+            <if test="referenceMarketValue != null">reference_market_value,</if>
+            <if test="tradingMarket != null">trading_market,</if>
+            <if test="floatingCapitalName != null">floating_capital_name,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+            <if test="availableAmount != null">available_amount,</if>
+            <if test="stockValue != null">stock_value,</if>
+            <if test="totalAssets != null">total_assets,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="transactionDate != null">#{transactionDate},</if>
+            <if test="transactionType != null">#{transactionType},</if>
+            <if test="profitFlag != null">#{profitFlag},</if>
+            <if test="stockCode != null">#{stockCode},</if>
+            <if test="stockName != null">#{stockName},</if>
+            <if test="stockQuantity != null">#{stockQuantity},</if>
+            <if test="sellableQuantity != null">#{sellableQuantity},</if>
+            <if test="costPrice != null">#{costPrice},</if>
+            <if test="currentPrice != null">#{currentPrice},</if>
+            <if test="profitLossRatio != null">#{profitLossRatio},</if>
+            <if test="referenceProfitLoss != null">#{referenceProfitLoss},</if>
+            <if test="referenceMarketValue != null">#{referenceMarketValue},</if>
+            <if test="tradingMarket != null">#{tradingMarket},</if>
+            <if test="floatingCapitalName != null">#{floatingCapitalName},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+            <if test="availableAmount != null">#{availableAmount},</if>
+            <if test="stockValue != null">#{stockValue},</if>
+            <if test="totalAssets != null">#{totalAssets},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStockDeliveryNote" parameterType="StockDeliveryNoteDTO">
+        update stock_delivery_note
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="transactionDate != null">transaction_date = #{transactionDate},</if>
+            <if test="transactionType != null">transaction_type = #{transactionType},</if>
+            <if test="profitFlag != null">profit_flag = #{profitFlag},</if>
+            <if test="stockCode != null">stock_code = #{stockCode},</if>
+            <if test="stockName != null">stock_name = #{stockName},</if>
+            <if test="stockQuantity != null">stock_quantity = #{stockQuantity},</if>
+            <if test="sellableQuantity != null">sellable_quantity = #{sellableQuantity},</if>
+            <if test="costPrice != null">cost_price = #{costPrice},</if>
+            <if test="currentPrice != null">current_price = #{currentPrice},</if>
+            <if test="profitLossRatio != null">profit_loss_ratio = #{profitLossRatio},</if>
+            <if test="referenceProfitLoss != null">reference_profit_loss = #{referenceProfitLoss},</if>
+            <if test="referenceMarketValue != null">reference_market_value = #{referenceMarketValue},</if>
+            <if test="tradingMarket != null">trading_market = #{tradingMarket},</if>
+            <if test="floatingCapitalName != null">floating_capital_name = #{floatingCapitalName},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+            <if test="availableAmount != null">available_amount = #{availableAmount},</if>
+            <if test="stockValue != null">stock_value = #{stockValue},</if>
+            <if test="totalAssets != null">total_assets = #{totalAssets},</if>
+        </trim>
+        where stock_id = #{stockId}
+    </update>
+
+    <delete id="deleteStockDeliveryNoteByStockId" parameterType="Long">
+        delete from stock_delivery_note where stock_id = #{stockId}
+    </delete>
+
+    <delete id="deleteStockDeliveryNoteByStockIds" parameterType="String">
+        delete from stock_delivery_note where stock_id in
+        <foreach item="stockId" collection="array" open="(" separator="," close=")">
+            #{stockId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ItemCategoryMapper">
+    
+    <resultMap type="ItemCategoryDTO" id="ItemCategoryResult">
+        <result property="categoryId"    column="category_id"    />
+        <result property="categoryName"    column="category_name"    />
+        <result property="description"    column="description"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="qrcodeCategoryFlag"    column="qrcode_category_flag"    />
+        <result property="qrcodeId"    column="qrcode_id"    />
+    </resultMap>
+
+    <sql id="selectItemCategoryVo">
+        select category_id, category_name, description, user_id, user_name, created_by, created_date, updated_by, updated_date, del_flag, qrcode_category_flag, qrcode_id from item_category
+    </sql>
+
+    <select id="selectItemCategoryList" parameterType="ItemCategoryDTO" resultMap="ItemCategoryResult">
+        <include refid="selectItemCategoryVo"/>
+        <where>  
+            <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
+            <if test="description != null  and description != ''"> and description like concat('%', #{description}, '%')</if>
+            <if test="params.beginCreatedDate != null and params.beginCreatedDate != '' and params.endCreatedDate != null and params.endCreatedDate != ''"> and created_date between #{params.beginCreatedDate} and #{params.endCreatedDate}</if>
+            <if test="params.beginUpdatedDate != null and params.beginUpdatedDate != '' and params.endUpdatedDate != null and params.endUpdatedDate != ''"> and updated_date between #{params.beginUpdatedDate} and #{params.endUpdatedDate}</if>
+            <if test="qrcodeCategoryFlag != null  and qrcodeCategoryFlag != ''"> and qrcode_category_flag = #{qrcodeCategoryFlag}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="delFlag != null">and del_flag=#{delFlag}</if>
+        </where>
+        order by updated_date asc
+    </select>
+    
+    <select id="selectItemCategoryByCategoryId" parameterType="Long" resultMap="ItemCategoryResult">
+        <include refid="selectItemCategoryVo"/>
+        where category_id = #{categoryId}
+    </select>
+        
+    <insert id="insertItemCategory" parameterType="ItemCategoryDTO" useGeneratedKeys="true" keyProperty="categoryId">
+        insert into item_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryName != null and categoryName != ''">category_name,</if>
+            <if test="description != null and description != ''">description,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="qrcodeCategoryFlag != null">qrcode_category_flag,</if>
+            <if test="qrcodeId != null">qrcode_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryName != null and categoryName != ''">#{categoryName},</if>
+            <if test="description != null and description != ''">#{description},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="qrcodeCategoryFlag != null">#{qrcodeCategoryFlag},</if>
+            <if test="qrcodeId != null">#{qrcodeId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateItemCategory" parameterType="ItemCategoryDTO">
+        update item_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryName != null and categoryName != ''">category_name = #{categoryName},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="qrcodeCategoryFlag != null">qrcode_category_flag = #{qrcodeCategoryFlag},</if>
+            <if test="qrcodeId != null">qrcode_id = #{qrcodeId},</if>
+        </trim>
+        where category_id = #{categoryId}
+    </update>
+
+    <delete id="deleteItemCategoryByCategoryId" parameterType="Long">
+        delete from item_category where category_id = #{categoryId}
+    </delete>
+
+    <delete id="deleteItemCategoryByCategoryIds" parameterType="String">
+        delete from item_category where category_id in 
+        <foreach item="categoryId" collection="array" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.stock.mapper.StockZtPoolDtgcEmMapper">
+
+    <resultMap type="StockZtPoolDtgcEm" id="StockZtPoolDtgcEmResult">
+        <result property="dtgcId"    column="dtgc_id"    />
+        <result property="serialNo"    column="serial_no"    />
+        <result property="stockCode"    column="stock_code"    />
+        <result property="stockName"    column="stock_name"    />
+        <result property="changePercent"    column="change_percent"    />
+        <result property="latestPrice"    column="latest_price"    />
+        <result property="turnover"    column="turnover"    />
+        <result property="circulatingMarketValue"    column="circulating_market_value"    />
+        <result property="totalMarketValue"    column="total_market_value"    />
+        <result property="dynamicPriceRatio"    column="dynamic_price_ratio"    />
+        <result property="turnoverRate"    column="turnover_rate"    />
+        <result property="sealedFunds"    column="sealed_funds"    />
+        <result property="lastSealedTime"    column="last_sealed_time"    />
+        <result property="turnoverOnBoard"    column="turnover_on_board"    />
+        <result property="bizDate"    column="biz_date"    />
+        <result property="continuousLimitDown"    column="continuous_limit_down"    />
+        <result property="openNum"    column="open_num"    />
+        <result property="industry"    column="industry"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectStockZtPoolDtgcEmVo">
+        select dtgc_id, serial_no, stock_code, stock_name, change_percent, latest_price, turnover, circulating_market_value, total_market_value, dynamic_price_ratio, turnover_rate, sealed_funds, last_sealed_time, turnover_on_board, biz_date, continuous_limit_down, open_num, industry, created_by, created_date, updated_by, updated_date from stock_zt_pool_dtgc_em
+    </sql>
+
+    <select id="selectStockZtPoolDtgcEmList" parameterType="StockZtPoolDtgcEm" resultMap="StockZtPoolDtgcEmResult">
+        <include refid="selectStockZtPoolDtgcEmVo"/>
+        <where>
+            <if test="stockCode != null  and stockCode != ''"> and stock_code = #{stockCode}</if>
+            <if test="stockName != null  and stockName != ''"> and stock_name like concat('%', #{stockName}, '%')</if>
+            <if test="bizDate != null  and bizDate != ''"> and biz_date = #{bizDate}</if>
+        </where>
+    </select>
+
+    <select id="selectStockZtPoolDtgcEmByDtgcId" parameterType="Long" resultMap="StockZtPoolDtgcEmResult">
+        <include refid="selectStockZtPoolDtgcEmVo"/>
+        where dtgc_id = #{dtgcId}
+    </select>
+
+    <insert id="insertStockZtPoolDtgcEm" parameterType="StockZtPoolDtgcEm" useGeneratedKeys="true" keyProperty="dtgcId">
+        insert into stock_zt_pool_dtgc_em
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serialNo != null">serial_no,</if>
+            <if test="stockCode != null">stock_code,</if>
+            <if test="stockName != null">stock_name,</if>
+            <if test="changePercent != null">change_percent,</if>
+            <if test="latestPrice != null">latest_price,</if>
+            <if test="turnover != null">turnover,</if>
+            <if test="circulatingMarketValue != null">circulating_market_value,</if>
+            <if test="totalMarketValue != null">total_market_value,</if>
+            <if test="dynamicPriceRatio != null">dynamic_price_ratio,</if>
+            <if test="turnoverRate != null">turnover_rate,</if>
+            <if test="sealedFunds != null">sealed_funds,</if>
+            <if test="lastSealedTime != null">last_sealed_time,</if>
+            <if test="turnoverOnBoard != null">turnover_on_board,</if>
+            <if test="bizDate != null">biz_date,</if>
+            <if test="continuousLimitDown != null">continuous_limit_down,</if>
+            <if test="openNum != null">open_num,</if>
+            <if test="industry != null">industry,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serialNo != null">#{serialNo},</if>
+            <if test="stockCode != null">#{stockCode},</if>
+            <if test="stockName != null">#{stockName},</if>
+            <if test="changePercent != null">#{changePercent},</if>
+            <if test="latestPrice != null">#{latestPrice},</if>
+            <if test="turnover != null">#{turnover},</if>
+            <if test="circulatingMarketValue != null">#{circulatingMarketValue},</if>
+            <if test="totalMarketValue != null">#{totalMarketValue},</if>
+            <if test="dynamicPriceRatio != null">#{dynamicPriceRatio},</if>
+            <if test="turnoverRate != null">#{turnoverRate},</if>
+            <if test="sealedFunds != null">#{sealedFunds},</if>
+            <if test="lastSealedTime != null">#{lastSealedTime},</if>
+            <if test="turnoverOnBoard != null">#{turnoverOnBoard},</if>
+            <if test="bizDate != null">#{bizDate},</if>
+            <if test="continuousLimitDown != null">#{continuousLimitDown},</if>
+            <if test="openNum != null">#{openNum},</if>
+            <if test="industry != null">#{industry},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStockZtPoolDtgcEm" parameterType="StockZtPoolDtgcEm">
+        update stock_zt_pool_dtgc_em
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serialNo != null">serial_no = #{serialNo},</if>
+            <if test="stockCode != null">stock_code = #{stockCode},</if>
+            <if test="stockName != null">stock_name = #{stockName},</if>
+            <if test="changePercent != null">change_percent = #{changePercent},</if>
+            <if test="latestPrice != null">latest_price = #{latestPrice},</if>
+            <if test="turnover != null">turnover = #{turnover},</if>
+            <if test="circulatingMarketValue != null">circulating_market_value = #{circulatingMarketValue},</if>
+            <if test="totalMarketValue != null">total_market_value = #{totalMarketValue},</if>
+            <if test="dynamicPriceRatio != null">dynamic_price_ratio = #{dynamicPriceRatio},</if>
+            <if test="turnoverRate != null">turnover_rate = #{turnoverRate},</if>
+            <if test="sealedFunds != null">sealed_funds = #{sealedFunds},</if>
+            <if test="lastSealedTime != null">last_sealed_time = #{lastSealedTime},</if>
+            <if test="turnoverOnBoard != null">turnover_on_board = #{turnoverOnBoard},</if>
+            <if test="bizDate != null">biz_date = #{bizDate},</if>
+            <if test="continuousLimitDown != null">continuous_limit_down = #{continuousLimitDown},</if>
+            <if test="openNum != null">open_num = #{openNum},</if>
+            <if test="industry != null">industry = #{industry},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where dtgc_id = #{dtgcId}
+    </update>
+
+    <delete id="deleteStockZtPoolDtgcEmByDtgcId" parameterType="Long">
+        delete from stock_zt_pool_dtgc_em where dtgc_id = #{dtgcId}
+    </delete>
+
+    <delete id="deleteStockZtPoolDtgcEmByDtgcIds" parameterType="String">
+        delete from stock_zt_pool_dtgc_em where dtgc_id in
+        <foreach item="dtgcId" collection="array" open="(" separator="," close=")">
+            #{dtgcId}
+        </foreach>
+    </delete>
+</mapper>

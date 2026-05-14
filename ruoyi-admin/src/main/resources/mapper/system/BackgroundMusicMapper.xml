@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BackgroundMusicMapper">
+    
+    <resultMap type="BackgroundMusicDTO" id="BackgroundMusicResult">
+        <result property="musicId"    column="music_id"    />
+        <result property="musicName"    column="music_name"    />
+        <result property="singer"    column="singer"    />
+        <result property="musicType"    column="music_type"    />
+        <result property="cloudmusicUrl"    column="cloudmusic_url"    />
+        <result property="qqmusicUrl"    column="qqmusic_url"    />
+        <result property="cloudUrl"    column="cloud_url"    />
+        <result property="useFlag"    column="use_flag"    />
+        <result property="useVideoUrl"    column="use_video_url"    />
+        <result property="useDate"    column="use_date"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="updatedDate"    column="updated_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectBackgroundMusicVo">
+        select music_id, music_name, singer, music_type, cloudmusic_url, qqmusic_url, cloud_url, use_flag, use_video_url, use_date, remark, created_by, created_date, updated_by, user_id, user_name, updated_date, del_flag from background_music
+    </sql>
+
+    <select id="selectBackgroundMusicList" parameterType="BackgroundMusicDTO" resultMap="BackgroundMusicResult">
+        <include refid="selectBackgroundMusicVo"/>
+        <where>  
+            <if test="musicName != null  and musicName != ''"> and music_name like concat('%', #{musicName}, '%')</if>
+            <if test="singer != null  and singer != ''"> and singer = #{singer}</if>
+            <if test="musicType != null  and musicType != ''"> and music_type = #{musicType}</if>
+            <if test="useFlag != null  and useFlag != ''"> and use_flag = #{useFlag}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectBackgroundMusicByMusicId" parameterType="Long" resultMap="BackgroundMusicResult">
+        <include refid="selectBackgroundMusicVo"/>
+        where music_id = #{musicId}
+    </select>
+        
+    <insert id="insertBackgroundMusic" parameterType="BackgroundMusicDTO" useGeneratedKeys="true" keyProperty="musicId">
+        insert into background_music
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="musicName != null and musicName != ''">music_name,</if>
+            <if test="singer != null">singer,</if>
+            <if test="musicType != null and musicType != ''">music_type,</if>
+            <if test="cloudmusicUrl != null">cloudmusic_url,</if>
+            <if test="qqmusicUrl != null">qqmusic_url,</if>
+            <if test="cloudUrl != null">cloud_url,</if>
+            <if test="useFlag != null">use_flag,</if>
+            <if test="useVideoUrl != null">use_video_url,</if>
+            <if test="useDate != null">use_date,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="updatedDate != null">updated_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="musicName != null and musicName != ''">#{musicName},</if>
+            <if test="singer != null">#{singer},</if>
+            <if test="musicType != null and musicType != ''">#{musicType},</if>
+            <if test="cloudmusicUrl != null">#{cloudmusicUrl},</if>
+            <if test="qqmusicUrl != null">#{qqmusicUrl},</if>
+            <if test="cloudUrl != null">#{cloudUrl},</if>
+            <if test="useFlag != null">#{useFlag},</if>
+            <if test="useVideoUrl != null">#{useVideoUrl},</if>
+            <if test="useDate != null">#{useDate},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBackgroundMusic" parameterType="BackgroundMusicDTO">
+        update background_music
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="musicName != null and musicName != ''">music_name = #{musicName},</if>
+            <if test="singer != null">singer = #{singer},</if>
+            <if test="musicType != null and musicType != ''">music_type = #{musicType},</if>
+            <if test="cloudmusicUrl != null">cloudmusic_url = #{cloudmusicUrl},</if>
+            <if test="qqmusicUrl != null">qqmusic_url = #{qqmusicUrl},</if>
+            <if test="cloudUrl != null">cloud_url = #{cloudUrl},</if>
+            <if test="useFlag != null">use_flag = #{useFlag},</if>
+            <if test="useVideoUrl != null">use_video_url = #{useVideoUrl},</if>
+            <if test="useDate != null">use_date = #{useDate},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where music_id = #{musicId}
+    </update>
+
+    <delete id="deleteBackgroundMusicByMusicId" parameterType="Long">
+        delete from background_music where music_id = #{musicId}
+    </delete>
+
+    <delete id="deleteBackgroundMusicByMusicIds" parameterType="String">
+        delete from background_music where music_id in 
+        <foreach item="musicId" collection="array" open="(" separator="," close=")">
+            #{musicId}
+        </foreach>
+    </delete>
+</mapper>

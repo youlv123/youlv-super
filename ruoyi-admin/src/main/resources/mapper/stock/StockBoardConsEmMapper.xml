@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.stock.mapper.StockBoardConsEmMapper">
+    
+    <resultMap type="StockBoardConsEm" id="StockBoardConsEmResult">
+        <result property="boardConsId"    column="board_cons_id"    />
+        <result property="serialNo"    column="serial_no"    />
+        <result property="stockCode"    column="stock_code"    />
+        <result property="stockName"    column="stock_name"    />
+        <result property="boardCode"    column="board_code"    />
+        <result property="boardName"    column="board_name"    />
+        <result property="latestPrice"    column="latest_price"    />
+        <result property="changePercent"    column="change_percent"    />
+        <result property="priceRiseFall"    column="price_rise_fall"    />
+        <result property="volume"    column="volume"    />
+        <result property="turnover"    column="turnover"    />
+        <result property="amplitude"    column="amplitude"    />
+        <result property="highestPrice"    column="Highest_price"    />
+        <result property="lowestPrice"    column="lowest_price"    />
+        <result property="todayOpenPrice"    column="today_open_price"    />
+        <result property="yesterdayClosingPrice"    column="yesterday_closing_price"    />
+        <result property="turnoverRate"    column="turnover_rate"    />
+        <result property="dynamicPriceRatio"    column="dynamic_price_ratio"    />
+        <result property="priceToBookRatio"    column="price_to_book_ratio"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectStockBoardConsEmVo">
+        select board_cons_id, serial_no, stock_code, stock_name, board_code, board_name, latest_price, change_percent, price_rise_fall, volume, turnover, amplitude, Highest_price, lowest_price, today_open_price, yesterday_closing_price, turnover_rate, dynamic_price_ratio, price_to_book_ratio, created_by, created_date, updated_by, updated_date from stock_board_cons_em
+    </sql>
+
+    <select id="selectStockBoardConsEmList" parameterType="StockBoardConsEm" resultMap="StockBoardConsEmResult">
+        <include refid="selectStockBoardConsEmVo"/>
+        <where>  
+            <if test="serialNo != null "> and serial_no = #{serialNo}</if>
+            <if test="stockCode != null  and stockCode != ''"> and stock_code = #{stockCode}</if>
+            <if test="stockName != null  and stockName != ''"> and stock_name like concat('%', #{stockName}, '%')</if>
+            <if test="boardCode != null  and boardCode != ''"> and board_code = #{boardCode}</if>
+            <if test="boardName != null  and boardName != ''"> and board_name like concat('%', #{boardName}, '%')</if>
+            <if test="latestPrice != null  and latestPrice != ''"> and latest_price = #{latestPrice}</if>
+            <if test="changePercent != null  and changePercent != ''"> and change_percent = #{changePercent}</if>
+            <if test="priceRiseFall != null  and priceRiseFall != ''"> and price_rise_fall = #{priceRiseFall}</if>
+            <if test="volume != null  and volume != ''"> and volume = #{volume}</if>
+            <if test="turnover != null "> and turnover = #{turnover}</if>
+            <if test="amplitude != null  and amplitude != ''"> and amplitude = #{amplitude}</if>
+            <if test="highestPrice != null  and highestPrice != ''"> and Highest_price = #{highestPrice}</if>
+            <if test="lowestPrice != null  and lowestPrice != ''"> and lowest_price = #{lowestPrice}</if>
+            <if test="todayOpenPrice != null  and todayOpenPrice != ''"> and today_open_price = #{todayOpenPrice}</if>
+            <if test="yesterdayClosingPrice != null  and yesterdayClosingPrice != ''"> and yesterday_closing_price = #{yesterdayClosingPrice}</if>
+            <if test="turnoverRate != null  and turnoverRate != ''"> and turnover_rate = #{turnoverRate}</if>
+            <if test="dynamicPriceRatio != null  and dynamicPriceRatio != ''"> and dynamic_price_ratio = #{dynamicPriceRatio}</if>
+            <if test="priceToBookRatio != null  and priceToBookRatio != ''"> and price_to_book_ratio = #{priceToBookRatio}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+            <if test="updatedDate != null "> and updated_date = #{updatedDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectStockBoardConsEmByBoardConsId" parameterType="Long" resultMap="StockBoardConsEmResult">
+        <include refid="selectStockBoardConsEmVo"/>
+        where board_cons_id = #{boardConsId}
+    </select>
+        
+    <insert id="insertStockBoardConsEm" parameterType="StockBoardConsEm" useGeneratedKeys="true" keyProperty="boardConsId">
+        insert into stock_board_cons_em
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serialNo != null">serial_no,</if>
+            <if test="stockCode != null and stockCode != ''">stock_code,</if>
+            <if test="stockName != null and stockName != ''">stock_name,</if>
+            <if test="boardCode != null and boardCode != ''">board_code,</if>
+            <if test="boardName != null and boardName != ''">board_name,</if>
+            <if test="latestPrice != null and latestPrice != ''">latest_price,</if>
+            <if test="changePercent != null">change_percent,</if>
+            <if test="priceRiseFall != null and priceRiseFall != ''">price_rise_fall,</if>
+            <if test="volume != null and volume != ''">volume,</if>
+            <if test="turnover != null">turnover,</if>
+            <if test="amplitude != null">amplitude,</if>
+            <if test="highestPrice != null and highestPrice != ''">Highest_price,</if>
+            <if test="lowestPrice != null and lowestPrice != ''">lowest_price,</if>
+            <if test="todayOpenPrice != null and todayOpenPrice != ''">today_open_price,</if>
+            <if test="yesterdayClosingPrice != null and yesterdayClosingPrice != ''">yesterday_closing_price,</if>
+            <if test="turnoverRate != null">turnover_rate,</if>
+            <if test="dynamicPriceRatio != null">dynamic_price_ratio,</if>
+            <if test="priceToBookRatio != null">price_to_book_ratio,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serialNo != null">#{serialNo},</if>
+            <if test="stockCode != null and stockCode != ''">#{stockCode},</if>
+            <if test="stockName != null and stockName != ''">#{stockName},</if>
+            <if test="boardCode != null and boardCode != ''">#{boardCode},</if>
+            <if test="boardName != null and boardName != ''">#{boardName},</if>
+            <if test="latestPrice != null and latestPrice != ''">#{latestPrice},</if>
+            <if test="changePercent != null">#{changePercent},</if>
+            <if test="priceRiseFall != null and priceRiseFall != ''">#{priceRiseFall},</if>
+            <if test="volume != null and volume != ''">#{volume},</if>
+            <if test="turnover != null">#{turnover},</if>
+            <if test="amplitude != null">#{amplitude},</if>
+            <if test="highestPrice != null and highestPrice != ''">#{highestPrice},</if>
+            <if test="lowestPrice != null and lowestPrice != ''">#{lowestPrice},</if>
+            <if test="todayOpenPrice != null and todayOpenPrice != ''">#{todayOpenPrice},</if>
+            <if test="yesterdayClosingPrice != null and yesterdayClosingPrice != ''">#{yesterdayClosingPrice},</if>
+            <if test="turnoverRate != null">#{turnoverRate},</if>
+            <if test="dynamicPriceRatio != null">#{dynamicPriceRatio},</if>
+            <if test="priceToBookRatio != null">#{priceToBookRatio},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStockBoardConsEm" parameterType="StockBoardConsEm">
+        update stock_board_cons_em
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serialNo != null">serial_no = #{serialNo},</if>
+            <if test="stockCode != null and stockCode != ''">stock_code = #{stockCode},</if>
+            <if test="stockName != null and stockName != ''">stock_name = #{stockName},</if>
+            <if test="boardCode != null and boardCode != ''">board_code = #{boardCode},</if>
+            <if test="boardName != null and boardName != ''">board_name = #{boardName},</if>
+            <if test="latestPrice != null and latestPrice != ''">latest_price = #{latestPrice},</if>
+            <if test="changePercent != null">change_percent = #{changePercent},</if>
+            <if test="priceRiseFall != null and priceRiseFall != ''">price_rise_fall = #{priceRiseFall},</if>
+            <if test="volume != null and volume != ''">volume = #{volume},</if>
+            <if test="turnover != null">turnover = #{turnover},</if>
+            <if test="amplitude != null">amplitude = #{amplitude},</if>
+            <if test="highestPrice != null and highestPrice != ''">Highest_price = #{highestPrice},</if>
+            <if test="lowestPrice != null and lowestPrice != ''">lowest_price = #{lowestPrice},</if>
+            <if test="todayOpenPrice != null and todayOpenPrice != ''">today_open_price = #{todayOpenPrice},</if>
+            <if test="yesterdayClosingPrice != null and yesterdayClosingPrice != ''">yesterday_closing_price = #{yesterdayClosingPrice},</if>
+            <if test="turnoverRate != null">turnover_rate = #{turnoverRate},</if>
+            <if test="dynamicPriceRatio != null">dynamic_price_ratio = #{dynamicPriceRatio},</if>
+            <if test="priceToBookRatio != null">price_to_book_ratio = #{priceToBookRatio},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where board_cons_id = #{boardConsId}
+    </update>
+
+    <delete id="deleteStockBoardConsEmByBoardConsId" parameterType="Long">
+        delete from stock_board_cons_em where board_cons_id = #{boardConsId}
+    </delete>
+
+    <delete id="deleteStockBoardConsEmByBoardConsIds" parameterType="String">
+        delete from stock_board_cons_em where board_cons_id in 
+        <foreach item="boardConsId" collection="array" open="(" separator="," close=")">
+            #{boardConsId}
+        </foreach>
+    </delete>
+</mapper>

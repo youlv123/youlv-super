@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ItemInformationMapper">
+
+    <resultMap type="ItemInformationDTO" id="ItemInformationResult">
+        <result property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="description" column="description"/>
+        <result property="hasImage" column="has_image"/>
+        <result property="purchasePrice" column="purchase_price"/>
+        <result property="purchaseDate" column="purchase_date"/>
+        <result property="purchaseQuantity" column="purchase_quantity"/>
+        <result property="purchasePlatform" column="purchase_platform"/>
+        <result property="orderId" column="order_id"/>
+        <result property="productionDate" column="production_date"/>
+        <result property="shelfLife" column="shelf_life"/>
+        <result property="expirationDate" column="expiration_date"/>
+        <result property="storageLocation" column="storage_location"/>
+        <result property="remark" column="remark"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdDate" column="created_date"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="updatedDate" column="updated_date"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="qrCodeGenerated" column="qr_code_generated"/>
+        <result property="itemStatus" column="item_status"/>
+        <result property="usageRate" column="usage_rate"/>
+    </resultMap>
+
+    <sql id="selectItemInformationVo">
+        select item_id,
+               item_name,
+               description,
+               has_image,
+               purchase_price,
+               purchase_date,
+               purchase_quantity,
+               purchase_platform,
+               order_id,
+               production_date,
+               shelf_life,
+               expiration_date,
+               storage_location,
+               remark,
+               created_by,
+               created_date,
+               updated_by,
+               user_id,
+               user_name,
+               updated_date,
+               del_flag,
+               qr_code_generated,
+               item_status,
+               usage_rate
+        from item_information
+    </sql>
+
+    <select id="selectItemInformationList" parameterType="ItemInformationDTO" resultMap="ItemInformationResult">
+        <include refid="selectItemInformationVo"/>
+        <where>
+            <if test="itemName != null  and itemName != ''">and item_name like concat('%', #{itemName}, '%')</if>
+            <if test="description != null  and description != ''">and description like concat('%', #{description},
+                '%')
+            </if>
+            <if test="hasImage != null  and hasImage != ''">and has_image = #{hasImage}</if>
+            <if test="params.beginPurchasePrice != null and params.beginPurchasePrice != '' and params.endPurchasePrice != null and params.endPurchasePrice != ''">
+                and purchase_price between #{params.beginPurchasePrice} and #{params.endPurchasePrice}
+            </if>
+            <if test="params.beginPurchaseDate != null and params.beginPurchaseDate != '' and params.endPurchaseDate != null and params.endPurchaseDate != ''">
+                and purchase_date between #{params.beginPurchaseDate} and #{params.endPurchaseDate}
+            </if>
+            <if test="purchaseQuantity != null ">and purchase_quantity = #{purchaseQuantity}</if>
+            <if test="purchasePlatform != null  and purchasePlatform != ''">and purchase_platform =
+                #{purchasePlatform}
+            </if>
+            <if test="orderId != null ">and order_id like concat('%', #{orderId}, '%')</if>
+            <if test="params.beginProductionDate != null and params.beginProductionDate != '' and params.endProductionDate != null and params.endProductionDate != ''">
+                and production_date between #{params.beginProductionDate} and #{params.endProductionDate}
+            </if>
+            <if test="shelfLife != null ">and shelf_life = #{shelfLife}</if>
+            <if test="params.beginExpirationDate != null and params.beginExpirationDate != '' and params.endExpirationDate != null and params.endExpirationDate != ''">
+                and expiration_date between #{params.beginExpirationDate} and #{params.endExpirationDate}
+            </if>
+            <if test="storageLocation != null  and storageLocation != ''">and storage_location = #{storageLocation}</if>
+            <if test="params.beginCreatedDate != null and params.beginCreatedDate != '' and params.endCreatedDate != null and params.endCreatedDate != ''">
+                and created_date between #{params.beginCreatedDate} and #{params.endCreatedDate}
+            </if>
+            <if test="params.beginUpdatedDate != null and params.beginUpdatedDate != '' and params.endUpdatedDate != null and params.endUpdatedDate != ''">
+                and updated_date between #{params.beginUpdatedDate} and #{params.endUpdatedDate}
+            </if>
+            <if test="qrCodeGenerated != null  and qrCodeGenerated != ''">and qr_code_generated = #{qrCodeGenerated}
+            </if>
+            <if test="itemStatus != null ">and item_status = #{itemStatus}</if>
+            <if test="usageRate != null ">and usage_rate = #{usageRate}</if>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="delFlag != null ">and del_flag = #{delFlag}</if>
+            <if test="categoryId != null ">and item_id in(select item_id from item_category_relation where category_id = #{categoryId} and del_flag='0')</if>
+
+        </where>
+        order by created_date desc
+    </select>
+
+    <select id="selectItemInformationByItemId" parameterType="Long" resultMap="ItemInformationResult">
+        <include refid="selectItemInformationVo"/>
+        where item_id = #{itemId} and del_flag='0'
+    </select>
+
+    <insert id="insertItemInformation" parameterType="ItemInformationDTO" useGeneratedKeys="true" keyProperty="itemId">
+        insert into item_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemName != null and itemName != ''">item_name,</if>
+            <if test="description != null">description,</if>
+            <if test="hasImage != null">has_image,</if>
+            <if test="purchasePrice != null">purchase_price,</if>
+            <if test="purchaseDate != null">purchase_date,</if>
+            <if test="purchaseQuantity != null">purchase_quantity,</if>
+            <if test="purchasePlatform != null and purchasePlatform != ''">purchase_platform,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="productionDate != null">production_date,</if>
+            <if test="shelfLife != null">shelf_life,</if>
+            <if test="expirationDate != null">expiration_date,</if>
+            <if test="storageLocation != null and storageLocation != ''">storage_location,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="updatedDate != null">updated_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="qrCodeGenerated != null">qr_code_generated,</if>
+            <if test="itemStatus != null">item_status,</if>
+            <if test="usageRate != null">usage_rate,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemName != null and itemName != ''">#{itemName},</if>
+            <if test="description != null">#{description},</if>
+            <if test="hasImage != null">#{hasImage},</if>
+            <if test="purchasePrice != null">#{purchasePrice},</if>
+            <if test="purchaseDate != null">#{purchaseDate},</if>
+            <if test="purchaseQuantity != null">#{purchaseQuantity},</if>
+            <if test="purchasePlatform != null and purchasePlatform != ''">#{purchasePlatform},</if>
+            <if test="orderId != null">#{orderId},</if>
+            <if test="productionDate != null">#{productionDate},</if>
+            <if test="shelfLife != null">#{shelfLife},</if>
+            <if test="expirationDate != null">#{expirationDate},</if>
+            <if test="storageLocation != null and storageLocation != ''">#{storageLocation},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="qrCodeGenerated != null">#{qrCodeGenerated},</if>
+            <if test="itemStatus != null">#{itemStatus},</if>
+            <if test="usageRate != null">#{usageRate},</if>
+        </trim>
+    </insert>
+
+    <update id="updateItemInformation" parameterType="ItemInformationDTO">
+        update item_information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemName != null and itemName != ''">item_name = #{itemName},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="hasImage != null">has_image = #{hasImage},</if>
+            <if test="purchasePrice != null">purchase_price = #{purchasePrice},</if>
+            <if test="purchaseDate != null">purchase_date = #{purchaseDate},</if>
+            <if test="purchaseQuantity != null">purchase_quantity = #{purchaseQuantity},</if>
+            <if test="purchasePlatform != null and purchasePlatform != ''">purchase_platform = #{purchasePlatform},</if>
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="productionDate != null">production_date = #{productionDate},</if>
+            <if test="shelfLife != null">shelf_life = #{shelfLife},</if>
+            <if test="expirationDate != null">expiration_date = #{expirationDate},</if>
+            <if test="storageLocation != null and storageLocation != ''">storage_location = #{storageLocation},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="qrCodeGenerated != null">qr_code_generated = #{qrCodeGenerated},</if>
+            <if test="itemStatus != null">item_status = #{itemStatus},</if>
+            <if test="usageRate != null">usage_rate = #{usageRate},</if>
+        </trim>
+        where item_id = #{itemId}
+    </update>
+
+    <delete id="deleteItemInformationByItemId" parameterType="Long">
+        delete
+        from item_information
+        where item_id = #{itemId}
+    </delete>
+
+    <delete id="deleteItemInformationByItemIds" parameterType="String">
+        delete from item_information where item_id in
+        <foreach item="itemId" collection="array" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+
+    <delete id="updateItemInformationByItemIds" parameterType="String">
+        update item_information  set del_flag='1' where item_id in
+        <foreach item="itemId" collection="array" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+
+    <select id="selectItemInfo" resultMap="ItemInformationResult">
+        <include refid="selectItemInformationVo"/>
+        where
+        user_id = #{itemInformationDto.userId}
+        and del_flag =#{itemInformationDto.delFlag}
+        <if test="list != null and list.size > 0">
+        and item_id not in
+        <foreach collection='list' item="item" index="index" open="(" close=")" separator=",">
+            #{item.itemId}
+        </foreach>
+        </if>
+    </select>
+
+
+    <select id="selectItemInformation" parameterType="ItemCategoryRelationDTO" resultMap="ItemInformationResult">
+        <include refid="selectItemInformationVo"/>
+        where    del_flag='0' and   item_id in(
+
+        select item_id
+        from item_category_relation
+        <where>
+            <if test="itemId != null ">and item_id = #{itemId}</if>
+            <if test="
+                categoryId != null ">and category_id = #{categoryId}</if>
+            <if
+                    test="userId != null ">and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''">and user_name like concat('%', #{userName}, '%')</if>
+            <if test="createdBy != null  and createdBy != ''">and created_by like concat('%', #{createdBy
+                }, '%')</if>
+            <if test="params.beginCreatedDate != null and params.beginCreatedDate != '' and params.endCreatedDate != null and params.endCreatedDate != ''">
+                and created_date between #{params.beginCreatedDate} and #{params.endCreatedDate}
+            </if>
+            <if test="updatedBy != null  and updatedBy != ''">and updated_by like concat('%', #{updatedBy
+                }, '%')</if>
+            <if test="params.beginUpdatedDate != null and params.beginUpdatedDate != '' and params.endUpdatedDate != null and params.endUpdatedDate != ''">
+                and updated_date between #{params.beginUpdatedDate} and #{params.endUpdatedDate}
+            </if>
+            <if test="delFlag != null">and del_flag=#{delFlag}</if>
+        </where>
+        )   order by created_date desc
+    </select>
+</mapper>

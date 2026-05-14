@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.stock.mapper.TaskLogMapper">
+    
+    <resultMap type="TaskLog" id="TaskLogResult">
+        <result property="taskLogId"    column="task_log_id"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="taskStatus"    column="task_status"    />
+        <result property="errorMessage"    column="error_message"    />
+        <result property="dataNum"    column="data_num"    />
+        <result property="duration"    column="duration"    />
+        <result property="bizDate"    column="biz_date"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectTaskLogVo">
+        select task_log_id, task_name, task_status, error_message, data_num, duration, biz_date, created_by, created_date, updated_by, updated_date from task_log
+    </sql>
+
+    <select id="selectTaskLogList" parameterType="TaskLog" resultMap="TaskLogResult">
+        <include refid="selectTaskLogVo"/>
+        <where>  
+            <if test="taskName != null  and taskName != ''"> and task_name like concat('%', #{taskName}, '%')</if>
+            <if test="taskStatus != null  and taskStatus != ''"> and task_status = #{taskStatus}</if>
+            <if test="errorMessage != null  and errorMessage != ''"> and error_message = #{errorMessage}</if>
+            <if test="dataNum != null "> and data_num = #{dataNum}</if>
+            <if test="duration != null  and duration != ''"> and duration = #{duration}</if>
+            <if test="bizDate != null  and bizDate != ''"> and biz_date = #{bizDate}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+            <if test="updatedDate != null "> and updated_date = #{updatedDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectTaskLogByTaskLogId" parameterType="Long" resultMap="TaskLogResult">
+        <include refid="selectTaskLogVo"/>
+        where task_log_id = #{taskLogId}
+    </select>
+        
+    <insert id="insertTaskLog" parameterType="TaskLog" useGeneratedKeys="true" keyProperty="taskLogId">
+        insert into task_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskName != null">task_name,</if>
+            <if test="taskStatus != null">task_status,</if>
+            <if test="errorMessage != null">error_message,</if>
+            <if test="dataNum != null">data_num,</if>
+            <if test="duration != null">duration,</if>
+            <if test="bizDate != null">biz_date,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskName != null">#{taskName},</if>
+            <if test="taskStatus != null">#{taskStatus},</if>
+            <if test="errorMessage != null">#{errorMessage},</if>
+            <if test="dataNum != null">#{dataNum},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="bizDate != null">#{bizDate},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTaskLog" parameterType="TaskLog">
+        update task_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskName != null">task_name = #{taskName},</if>
+            <if test="taskStatus != null">task_status = #{taskStatus},</if>
+            <if test="errorMessage != null">error_message = #{errorMessage},</if>
+            <if test="dataNum != null">data_num = #{dataNum},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="bizDate != null">biz_date = #{bizDate},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where task_log_id = #{taskLogId}
+    </update>
+
+    <delete id="deleteTaskLogByTaskLogId" parameterType="Long">
+        delete from task_log where task_log_id = #{taskLogId}
+    </delete>
+
+    <delete id="deleteTaskLogByTaskLogIds" parameterType="String">
+        delete from task_log where task_log_id in 
+        <foreach item="taskLogId" collection="array" open="(" separator="," close=")">
+            #{taskLogId}
+        </foreach>
+    </delete>
+</mapper>

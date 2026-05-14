@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PushWxMessageRecordMapper">
+
+    <resultMap type="PushWxMessageRecord" id="PushWxMessageRecordResult">
+        <result property="pushId"    column="push_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="wxId"    column="wx_id"    />
+        <result property="applicationId"    column="application_id"    />
+        <result property="wxTaskId"    column="wx_task_id"    />
+        <result property="wxMessageContent"    column="wx_message_content"    />
+        <result property="messageType"    column="message_type"    />
+        <result property="wxMsgid"    column="wx_msgid"    />
+        <result property="pushFlag"    column="push_flag"    />
+        <result property="errorLog"    column="error_log"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectPushWxMessageRecordVo">
+        select push_id, user_id, user_name, wx_id, application_id, wx_task_id, wx_message_content, message_type, wx_msgid, push_flag, error_log, created_by, created_date, updated_by, updated_date from push_wx_message_record
+    </sql>
+
+    <select id="selectPushWxMessageRecordList" parameterType="PushWxMessageRecord" resultMap="PushWxMessageRecordResult">
+        <include refid="selectPushWxMessageRecordVo"/>
+        <where>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="wxId != null  and wxId != ''"> and wx_id = #{wxId}</if>
+            <if test="applicationId != null  and applicationId != ''"> and application_id = #{applicationId}</if>
+            <if test="messageType != null  and messageType != ''"> and message_type = #{messageType}</if>
+            <if test="wxMsgid != null  and wxMsgid != ''"> and wx_msgid = #{wxMsgid}</if>
+            <if test="pushFlag != null  and pushFlag != ''"> and push_flag = #{pushFlag}</if>
+        </where>
+        order by created_date desc
+    </select>
+
+    <select id="selectPushWxMessageRecordByPushId" parameterType="Long" resultMap="PushWxMessageRecordResult">
+        <include refid="selectPushWxMessageRecordVo"/>
+        where push_id = #{pushId}
+    </select>
+
+    <insert id="insertPushWxMessageRecord" parameterType="PushWxMessageRecord" useGeneratedKeys="true" keyProperty="pushId">
+        insert into push_wx_message_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="wxId != null">wx_id,</if>
+            <if test="applicationId != null">application_id,</if>
+            <if test="wxTaskId != null">wx_task_id,</if>
+            <if test="wxMessageContent != null">wx_message_content,</if>
+            <if test="messageType != null">message_type,</if>
+            <if test="wxMsgid != null">wx_msgid,</if>
+            <if test="pushFlag != null">push_flag,</if>
+            <if test="errorLog != null">error_log,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="wxId != null">#{wxId},</if>
+            <if test="applicationId != null">#{applicationId},</if>
+            <if test="wxTaskId != null">#{wxTaskId},</if>
+            <if test="wxMessageContent != null">#{wxMessageContent},</if>
+            <if test="messageType != null">#{messageType},</if>
+            <if test="wxMsgid != null">#{wxMsgid},</if>
+            <if test="pushFlag != null">#{pushFlag},</if>
+            <if test="errorLog != null">#{errorLog},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePushWxMessageRecord" parameterType="PushWxMessageRecord">
+        update push_wx_message_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="wxId != null">wx_id = #{wxId},</if>
+            <if test="applicationId != null">application_id = #{applicationId},</if>
+            <if test="wxTaskId != null">wx_task_id = #{wxTaskId},</if>
+            <if test="wxMessageContent != null">wx_message_content = #{wxMessageContent},</if>
+            <if test="messageType != null">message_type = #{messageType},</if>
+            <if test="wxMsgid != null">wx_msgid = #{wxMsgid},</if>
+            <if test="pushFlag != null">push_flag = #{pushFlag},</if>
+            <if test="errorLog != null">error_log = #{errorLog},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where push_id = #{pushId}
+    </update>
+
+    <delete id="deletePushWxMessageRecordByPushId" parameterType="Long">
+        delete from push_wx_message_record where push_id = #{pushId}
+    </delete>
+
+    <delete id="deletePushWxMessageRecordByPushIds" parameterType="String">
+        delete from push_wx_message_record where push_id in
+        <foreach item="pushId" collection="array" open="(" separator="," close=")">
+            #{pushId}
+        </foreach>
+    </delete>
+
+</mapper>

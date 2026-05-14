@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WxTaskMapper">
+
+    <resultMap type="WxTask" id="WxTaskResult">
+        <result property="wxTaskId"    column="wx_task_id"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="taskGroup"    column="task_group"    />
+        <result property="cron"    column="cron"    />
+        <result property="taskStatus"    column="task_status"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="wxId"    column="wx_id"    />
+        <result property="applicationId"    column="application_id"    />
+        <result property="wxMessageContent"    column="wx_message_content"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectWxTaskVo">
+        select wx_task_id, task_name, task_group, cron, task_status, user_id, user_name, wx_id, application_id, wx_message_content, created_by, created_date, updated_by, updated_date from wx_task
+    </sql>
+
+    <select id="selectWxTaskList" parameterType="WxTask" resultMap="WxTaskResult">
+        <include refid="selectWxTaskVo"/>
+        <where>
+            <if test="taskName != null  and taskName != ''"> and task_name like concat('%', #{taskName}, '%')</if>
+            <if test="taskGroup != null  and taskGroup != ''"> and task_group = #{taskGroup}</if>
+            <if test="taskStatus != null  and taskStatus != ''"> and task_status = #{taskStatus}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="wxId != null  and wxId != ''"> and wx_id = #{wxId}</if>
+            <if test="applicationId != null  and applicationId != ''"> and application_id = #{applicationId}</if>
+        </where>
+        order by created_date desc
+    </select>
+
+    <select id="selectWxTaskByWxTaskId" parameterType="Long" resultMap="WxTaskResult">
+        <include refid="selectWxTaskVo"/>
+        where wx_task_id = #{wxTaskId}
+    </select>
+
+    <insert id="insertWxTask" parameterType="WxTask" useGeneratedKeys="true" keyProperty="wxTaskId">
+        insert into wx_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskName != null and taskName != ''">task_name,</if>
+            <if test="taskGroup != null and taskGroup != ''">task_group,</if>
+            <if test="cron != null and cron != ''">cron,</if>
+            <if test="taskStatus != null">task_status,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="wxId != null and wxId != ''">wx_id,</if>
+            <if test="applicationId != null and applicationId != ''">application_id,</if>
+            <if test="wxMessageContent != null and wxMessageContent != ''">wx_message_content,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskName != null and taskName != ''">#{taskName},</if>
+            <if test="taskGroup != null and taskGroup != ''">#{taskGroup},</if>
+            <if test="cron != null and cron != ''">#{cron},</if>
+            <if test="taskStatus != null">#{taskStatus},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="wxId != null and wxId != ''">#{wxId},</if>
+            <if test="applicationId != null and applicationId != ''">#{applicationId},</if>
+            <if test="wxMessageContent != null and wxMessageContent != ''">#{wxMessageContent},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWxTask" parameterType="WxTask">
+        update wx_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskName != null and taskName != ''">task_name = #{taskName},</if>
+            <if test="taskGroup != null and taskGroup != ''">task_group = #{taskGroup},</if>
+            <if test="cron != null and cron != ''">cron = #{cron},</if>
+            <if test="taskStatus != null">task_status = #{taskStatus},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="wxId != null and wxId != ''">wx_id = #{wxId},</if>
+            <if test="applicationId != null and applicationId != ''">application_id = #{applicationId},</if>
+            <if test="wxMessageContent != null and wxMessageContent != ''">wx_message_content = #{wxMessageContent},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where wx_task_id = #{wxTaskId}
+    </update>
+
+    <delete id="deleteWxTaskByWxTaskId" parameterType="Long">
+        delete from wx_task where wx_task_id = #{wxTaskId}
+    </delete>
+
+    <delete id="deleteWxTaskByWxTaskIds" parameterType="String">
+        delete from wx_task where wx_task_id in
+        <foreach item="wxTaskId" collection="array" open="(" separator="," close=")">
+            #{wxTaskId}
+        </foreach>
+    </delete>
+
+    <select id="selectAll" resultMap="WxTaskResult">
+        select * from wx_task where task_status = '0'
+    </select>
+</mapper>

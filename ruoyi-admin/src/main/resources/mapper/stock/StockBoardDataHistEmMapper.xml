@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.stock.mapper.StockBoardDataHistEmMapper">
+
+    <resultMap type="StockBoardDataHistEm" id="StockBoardDataHistEmResult">
+        <result property="boardDataHistId"    column="board_data_hist_id"    />
+        <result property="boardCode"    column="board_code"    />
+        <result property="boardName"    column="board_name"    />
+        <result property="boardType"    column="board_type"    />
+        <result property="openPrice"    column="open_price"    />
+        <result property="closingPrice"    column="closing_price"    />
+        <result property="highestPrice"    column="highest_price"    />
+        <result property="lowestPrice"    column="lowest_price"    />
+        <result property="changePercent"    column="change_percent"    />
+        <result property="priceRiseFall"    column="price_rise_fall"    />
+        <result property="volume"    column="volume"    />
+        <result property="turnover"    column="turnover"    />
+        <result property="amplitude"    column="amplitude"    />
+        <result property="turnoverRate"    column="turnover_rate"    />
+        <result property="period"    column="period"    />
+        <result property="bizDate"    column="biz_date"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectStockBoardDataHistEmVo">
+        select board_data_hist_id, board_code, board_name, board_type, open_price, closing_price, highest_price, lowest_price, change_percent, price_rise_fall, volume, turnover, amplitude, turnover_rate, period, biz_date, created_by, created_date, updated_by, updated_date from stock_board_data_hist_em
+    </sql>
+
+    <select id="selectStockBoardDataHistEmList" parameterType="StockBoardDataHistEm" resultMap="StockBoardDataHistEmResult">
+        <include refid="selectStockBoardDataHistEmVo"/>
+        <where>
+            <if test="boardCode != null  and boardCode != ''"> and board_code = #{boardCode}</if>
+            <if test="boardName != null  and boardName != ''"> and board_name like concat('%', #{boardName}, '%')</if>
+            <if test="boardType != null  and boardType != ''"> and board_type = #{boardType}</if>
+            <if test="openPrice != null  and openPrice != ''"> and open_price = #{openPrice}</if>
+            <if test="closingPrice != null  and closingPrice != ''"> and closing_price = #{closingPrice}</if>
+            <if test="highestPrice != null  and highestPrice != ''"> and highest_price = #{highestPrice}</if>
+            <if test="lowestPrice != null  and lowestPrice != ''"> and lowest_price = #{lowestPrice}</if>
+            <if test="changePercent != null  and changePercent != ''"> and change_percent = #{changePercent}</if>
+            <if test="priceRiseFall != null  and priceRiseFall != ''"> and price_rise_fall = #{priceRiseFall}</if>
+            <if test="volume != null  and volume != ''"> and volume = #{volume}</if>
+            <if test="turnover != null "> and turnover = #{turnover}</if>
+            <if test="amplitude != null  and amplitude != ''"> and amplitude = #{amplitude}</if>
+            <if test="turnoverRate != null  and turnoverRate != ''"> and turnover_rate = #{turnoverRate}</if>
+            <if test="period != null  and period != ''"> and period = #{period}</if>
+            <if test="bizDate != null  and bizDate != ''"> and biz_date = #{bizDate}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+            <if test="updatedDate != null "> and updated_date = #{updatedDate}</if>
+            <if test="bizDateStart != null  and bizDateStart != ''"> and biz_date >= #{bizDateStart}</if>
+            <if test="bizDateEnd != null  and bizDateEnd != ''"> and biz_date &lt;= #{bizDateEnd}</if>
+        </where>
+    </select>
+
+    <select id="selectStockBoardDataHistEmByBoardDataHistId" parameterType="Long" resultMap="StockBoardDataHistEmResult">
+        <include refid="selectStockBoardDataHistEmVo"/>
+        where board_data_hist_id = #{boardDataHistId}
+    </select>
+
+    <insert id="insertStockBoardDataHistEm" parameterType="StockBoardDataHistEm" useGeneratedKeys="true" keyProperty="boardDataHistId">
+        insert into stock_board_data_hist_em
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="boardCode != null and boardCode != ''">board_code,</if>
+            <if test="boardName != null and boardName != ''">board_name,</if>
+            <if test="boardType != null and boardType != ''">board_type,</if>
+            <if test="openPrice != null">open_price,</if>
+            <if test="closingPrice != null">closing_price,</if>
+            <if test="highestPrice != null">highest_price,</if>
+            <if test="lowestPrice != null">lowest_price,</if>
+            <if test="changePercent != null">change_percent,</if>
+            <if test="priceRiseFall != null">price_rise_fall,</if>
+            <if test="volume != null">volume,</if>
+            <if test="turnover != null">turnover,</if>
+            <if test="amplitude != null">amplitude,</if>
+            <if test="turnoverRate != null">turnover_rate,</if>
+            <if test="period != null">period,</if>
+            <if test="bizDate != null">biz_date,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="boardCode != null and boardCode != ''">#{boardCode},</if>
+            <if test="boardName != null and boardName != ''">#{boardName},</if>
+            <if test="boardType != null and boardType != ''">#{boardType},</if>
+            <if test="openPrice != null">#{openPrice},</if>
+            <if test="closingPrice != null">#{closingPrice},</if>
+            <if test="highestPrice != null">#{highestPrice},</if>
+            <if test="lowestPrice != null">#{lowestPrice},</if>
+            <if test="changePercent != null">#{changePercent},</if>
+            <if test="priceRiseFall != null">#{priceRiseFall},</if>
+            <if test="volume != null">#{volume},</if>
+            <if test="turnover != null">#{turnover},</if>
+            <if test="amplitude != null">#{amplitude},</if>
+            <if test="turnoverRate != null">#{turnoverRate},</if>
+            <if test="period != null">#{period},</if>
+            <if test="bizDate != null">#{bizDate},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStockBoardDataHistEm" parameterType="StockBoardDataHistEm">
+        update stock_board_data_hist_em
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="boardCode != null and boardCode != ''">board_code = #{boardCode},</if>
+            <if test="boardName != null and boardName != ''">board_name = #{boardName},</if>
+            <if test="boardType != null and boardType != ''">board_type = #{boardType},</if>
+            <if test="openPrice != null">open_price = #{openPrice},</if>
+            <if test="closingPrice != null">closing_price = #{closingPrice},</if>
+            <if test="highestPrice != null">highest_price = #{highestPrice},</if>
+            <if test="lowestPrice != null">lowest_price = #{lowestPrice},</if>
+            <if test="changePercent != null">change_percent = #{changePercent},</if>
+            <if test="priceRiseFall != null">price_rise_fall = #{priceRiseFall},</if>
+            <if test="volume != null">volume = #{volume},</if>
+            <if test="turnover != null">turnover = #{turnover},</if>
+            <if test="amplitude != null">amplitude = #{amplitude},</if>
+            <if test="turnoverRate != null">turnover_rate = #{turnoverRate},</if>
+            <if test="period != null">period = #{period},</if>
+            <if test="bizDate != null">biz_date = #{bizDate},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where board_data_hist_id = #{boardDataHistId}
+    </update>
+
+    <delete id="deleteStockBoardDataHistEmByBoardDataHistId" parameterType="Long">
+        delete from stock_board_data_hist_em where board_data_hist_id = #{boardDataHistId}
+    </delete>
+
+    <delete id="deleteStockBoardDataHistEmByBoardDataHistIds" parameterType="String">
+        delete from stock_board_data_hist_em where board_data_hist_id in
+        <foreach item="boardDataHistId" collection="array" open="(" separator="," close=")">
+            #{boardDataHistId}
+        </foreach>
+    </delete>
+</mapper>

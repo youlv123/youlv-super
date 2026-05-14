@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.stock.mapper.ThsBoardFundFlowMapper">
+
+    <resultMap type="ThsBoardFundFlow" id="ThsBoardFundFlowResult">
+        <result property="fundFlowBoardId"    column="fund_flow_board_id"    />
+        <result property="serialNo"    column="serial_no"    />
+        <result property="boardCode"    column="board_code"    />
+        <result property="boardName"    column="board_name"    />
+        <result property="changePercent"    column="change_percent"    />
+        <result property="mainstayInflowNetAmount"    column="mainstay_inflow_net_amount"    />
+        <result property="mainstayInflowNetPercent"    column="mainstay_inflow_net_percent"    />
+        <result property="superInflowNetAmount"    column="super_inflow_net_amount"    />
+        <result property="superInflowNetPercent"    column="super_inflow_net_percent"    />
+        <result property="bigInflowNetAmount"    column="big_inflow_net_amount"    />
+        <result property="bigInflowNetPercent"    column="big_inflow_net_percent"    />
+        <result property="midleInflowNetAmount"    column="midle_inflow_net_amount"    />
+        <result property="midleInflowNetPercent"    column="midle_inflow_net_percent"    />
+        <result property="smallInflowNetAmount"    column="small_inflow_net_amount"    />
+        <result property="smallInflowNetPercent"    column="small_inflow_net_percent"    />
+        <result property="mainstayInflowMaxStock"    column="mainstay_inflow_max_stock"    />
+        <result property="type"    column="type"    />
+        <result property="sectorType"    column="sector_type"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectThsBoardFundFlowVo">
+        select fund_flow_board_id, serial_no, board_code, board_name, change_percent, mainstay_inflow_net_amount, mainstay_inflow_net_percent, super_inflow_net_amount, super_inflow_net_percent, big_inflow_net_amount, big_inflow_net_percent, midle_inflow_net_amount, midle_inflow_net_percent, small_inflow_net_amount, small_inflow_net_percent, mainstay_inflow_max_stock, type, sector_type, created_by, created_date, updated_by, updated_date from ths_board_fund_flow
+    </sql>
+
+    <select id="selectThsBoardFundFlowList" parameterType="ThsBoardFundFlow" resultMap="ThsBoardFundFlowResult">
+        <include refid="selectThsBoardFundFlowVo"/>
+        <where>
+            <if test="serialNo != null "> and serial_no = #{serialNo}</if>
+            <if test="boardCode != null  and boardCode != ''"> and board_code = #{boardCode}</if>
+            <if test="boardName != null  and boardName != ''"> and board_name like concat('%', #{boardName}, '%')</if>
+            <if test="changePercent != null "> and change_percent = #{changePercent}</if>
+            <if test="mainstayInflowNetAmount != null "> and mainstay_inflow_net_amount = #{mainstayInflowNetAmount}</if>
+            <if test="mainstayInflowNetPercent != null "> and mainstay_inflow_net_percent = #{mainstayInflowNetPercent}</if>
+            <if test="superInflowNetAmount != null "> and super_inflow_net_amount = #{superInflowNetAmount}</if>
+            <if test="superInflowNetPercent != null "> and super_inflow_net_percent = #{superInflowNetPercent}</if>
+            <if test="bigInflowNetAmount != null "> and big_inflow_net_amount = #{bigInflowNetAmount}</if>
+            <if test="bigInflowNetPercent != null "> and big_inflow_net_percent = #{bigInflowNetPercent}</if>
+            <if test="midleInflowNetAmount != null "> and midle_inflow_net_amount = #{midleInflowNetAmount}</if>
+            <if test="midleInflowNetPercent != null "> and midle_inflow_net_percent = #{midleInflowNetPercent}</if>
+            <if test="smallInflowNetAmount != null "> and small_inflow_net_amount = #{smallInflowNetAmount}</if>
+            <if test="smallInflowNetPercent != null "> and small_inflow_net_percent = #{smallInflowNetPercent}</if>
+            <if test="mainstayInflowMaxStock != null  and mainstayInflowMaxStock != ''"> and mainstay_inflow_max_stock = #{mainstayInflowMaxStock}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="sectorType != null  and sectorType != ''"> and sector_type = #{sectorType}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+            <if test="updatedDate != null "> and updated_date = #{updatedDate}</if>
+        </where>
+    </select>
+
+    <select id="selectThsBoardFundFlowByFundFlowBoardId" parameterType="Long" resultMap="ThsBoardFundFlowResult">
+        <include refid="selectThsBoardFundFlowVo"/>
+        where fund_flow_board_id = #{fundFlowBoardId}
+    </select>
+
+    <insert id="insertThsBoardFundFlow" parameterType="ThsBoardFundFlow" useGeneratedKeys="true" keyProperty="fundFlowBoardId">
+        insert into ths_board_fund_flow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serialNo != null">serial_no,</if>
+            <if test="boardCode != null and boardCode != ''">board_code,</if>
+            <if test="boardName != null and boardName != ''">board_name,</if>
+            <if test="changePercent != null">change_percent,</if>
+            <if test="mainstayInflowNetAmount != null">mainstay_inflow_net_amount,</if>
+            <if test="mainstayInflowNetPercent != null">mainstay_inflow_net_percent,</if>
+            <if test="superInflowNetAmount != null">super_inflow_net_amount,</if>
+            <if test="superInflowNetPercent != null">super_inflow_net_percent,</if>
+            <if test="bigInflowNetAmount != null">big_inflow_net_amount,</if>
+            <if test="bigInflowNetPercent != null">big_inflow_net_percent,</if>
+            <if test="midleInflowNetAmount != null">midle_inflow_net_amount,</if>
+            <if test="midleInflowNetPercent != null">midle_inflow_net_percent,</if>
+            <if test="smallInflowNetAmount != null">small_inflow_net_amount,</if>
+            <if test="smallInflowNetPercent != null">small_inflow_net_percent,</if>
+            <if test="mainstayInflowMaxStock != null">mainstay_inflow_max_stock,</if>
+            <if test="type != null">type,</if>
+            <if test="sectorType != null">sector_type,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serialNo != null">#{serialNo},</if>
+            <if test="boardCode != null and boardCode != ''">#{boardCode},</if>
+            <if test="boardName != null and boardName != ''">#{boardName},</if>
+            <if test="changePercent != null">#{changePercent},</if>
+            <if test="mainstayInflowNetAmount != null">#{mainstayInflowNetAmount},</if>
+            <if test="mainstayInflowNetPercent != null">#{mainstayInflowNetPercent},</if>
+            <if test="superInflowNetAmount != null">#{superInflowNetAmount},</if>
+            <if test="superInflowNetPercent != null">#{superInflowNetPercent},</if>
+            <if test="bigInflowNetAmount != null">#{bigInflowNetAmount},</if>
+            <if test="bigInflowNetPercent != null">#{bigInflowNetPercent},</if>
+            <if test="midleInflowNetAmount != null">#{midleInflowNetAmount},</if>
+            <if test="midleInflowNetPercent != null">#{midleInflowNetPercent},</if>
+            <if test="smallInflowNetAmount != null">#{smallInflowNetAmount},</if>
+            <if test="smallInflowNetPercent != null">#{smallInflowNetPercent},</if>
+            <if test="mainstayInflowMaxStock != null">#{mainstayInflowMaxStock},</if>
+            <if test="type != null">#{type},</if>
+            <if test="sectorType != null">#{sectorType},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateThsBoardFundFlow" parameterType="ThsBoardFundFlow">
+        update ths_board_fund_flow
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serialNo != null">serial_no = #{serialNo},</if>
+            <if test="boardCode != null and boardCode != ''">board_code = #{boardCode},</if>
+            <if test="boardName != null and boardName != ''">board_name = #{boardName},</if>
+            <if test="changePercent != null">change_percent = #{changePercent},</if>
+            <if test="mainstayInflowNetAmount != null">mainstay_inflow_net_amount = #{mainstayInflowNetAmount},</if>
+            <if test="mainstayInflowNetPercent != null">mainstay_inflow_net_percent = #{mainstayInflowNetPercent},</if>
+            <if test="superInflowNetAmount != null">super_inflow_net_amount = #{superInflowNetAmount},</if>
+            <if test="superInflowNetPercent != null">super_inflow_net_percent = #{superInflowNetPercent},</if>
+            <if test="bigInflowNetAmount != null">big_inflow_net_amount = #{bigInflowNetAmount},</if>
+            <if test="bigInflowNetPercent != null">big_inflow_net_percent = #{bigInflowNetPercent},</if>
+            <if test="midleInflowNetAmount != null">midle_inflow_net_amount = #{midleInflowNetAmount},</if>
+            <if test="midleInflowNetPercent != null">midle_inflow_net_percent = #{midleInflowNetPercent},</if>
+            <if test="smallInflowNetAmount != null">small_inflow_net_amount = #{smallInflowNetAmount},</if>
+            <if test="smallInflowNetPercent != null">small_inflow_net_percent = #{smallInflowNetPercent},</if>
+            <if test="mainstayInflowMaxStock != null">mainstay_inflow_max_stock = #{mainstayInflowMaxStock},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="sectorType != null">sector_type = #{sectorType},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where fund_flow_board_id = #{fundFlowBoardId}
+    </update>
+
+    <delete id="deleteThsBoardFundFlowByFundFlowBoardId" parameterType="Long">
+        delete from ths_board_fund_flow where fund_flow_board_id = #{fundFlowBoardId}
+    </delete>
+
+    <delete id="deleteThsBoardFundFlowByFundFlowBoardIds" parameterType="String">
+        delete from ths_board_fund_flow where fund_flow_board_id in
+        <foreach item="fundFlowBoardId" collection="array" open="(" separator="," close=")">
+            #{fundFlowBoardId}
+        </foreach>
+    </delete>
+
+    <delete id="truncateThsBoardFundFlow">
+        truncate table ths_board_fund_flow
+    </delete>
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FinancialRecordMapper">
+
+    <resultMap type="FinancialRecord" id="FinancialRecordResult">
+        <result property="financialRecordId"    column="financial_record_id"    />
+        <result property="wxTaskId"    column="wx_task_id"    />
+        <result property="financialProductName"    column="financial_product_name"    />
+        <result property="financialGroup"    column="financial_group"    />
+        <result property="cron"    column="cron"    />
+        <result property="defaultCron"    column="default_cron"    />
+        <result property="financialStatus"    column="financial_status"    />
+        <result property="purchasePlatform"    column="purchase_platform"    />
+        <result property="purchaseTime"    column="purchase_time"    />
+        <result property="confirmTime"    column="confirm_time"    />
+        <result property="holdingTime"    column="holding_time"    />
+        <result property="expirationDate"    column="expiration_date"    />
+        <result property="redemptionTime"    column="Redemption_time"    />
+        <result property="amount"    column="amount"    />
+        <result property="yield"    column="yield"    />
+        <result property="redemptionPath"    column="redemption_path"    />
+        <result property="profit"    column="profit"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectFinancialRecordVo">
+        select financial_record_id, wx_task_id, financial_product_name, financial_group, cron, default_cron, financial_status, purchase_platform, purchase_time, confirm_time, holding_time, expiration_date, Redemption_time, amount, yield, redemption_path, profit, remark, created_by, created_date, updated_by, updated_date from financial_record
+    </sql>
+
+    <select id="selectFinancialRecordList" parameterType="FinancialRecord" resultMap="FinancialRecordResult">
+        <include refid="selectFinancialRecordVo"/>
+        <where>
+            <if test="financialProductName != null  and financialProductName != ''"> and financial_product_name like concat('%', #{financialProductName}, '%')</if>
+            <if test="financialGroup != null  and financialGroup != ''"> and financial_group = #{financialGroup}</if>
+            <if test="financialStatus != null  and financialStatus != ''"> and financial_status = #{financialStatus}</if>
+            <if test="purchasePlatform != null  and purchasePlatform != ''"> and purchase_platform like concat('%', #{purchasePlatform}, '%')</if>
+            <if test="params.beginPurchaseTime != null and params.beginPurchaseTime != '' and params.endPurchaseTime != null and params.endPurchaseTime != ''"> and purchase_time between #{params.beginPurchaseTime} and #{params.endPurchaseTime}</if>
+            <if test="params.beginConfirmTime != null and params.beginConfirmTime != '' and params.endConfirmTime != null and params.endConfirmTime != ''"> and confirm_time between #{params.beginConfirmTime} and #{params.endConfirmTime}</if>
+            <if test="params.beginExpirationDate != null and params.beginExpirationDate != '' and params.endExpirationDate != null and params.endExpirationDate != ''"> and expiration_date between #{params.beginExpirationDate} and #{params.endExpirationDate}</if>
+            <if test="params.beginRedemptionTime != null and params.beginRedemptionTime != '' and params.endRedemptionTime != null and params.endRedemptionTime != ''"> and Redemption_time between #{params.beginRedemptionTime} and #{params.endRedemptionTime}</if>
+        </where>
+        order by created_date desc
+    </select>
+
+    <select id="selectFinancialRecordByFinancialRecordId" parameterType="Long" resultMap="FinancialRecordResult">
+        <include refid="selectFinancialRecordVo"/>
+        where financial_record_id = #{financialRecordId}
+    </select>
+
+    <insert id="insertFinancialRecord" parameterType="FinancialRecord" useGeneratedKeys="true" keyProperty="financialRecordId">
+        insert into financial_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="wxTaskId != null">wx_task_id,</if>
+            <if test="financialProductName != null and financialProductName != ''">financial_product_name,</if>
+            <if test="financialGroup != null">financial_group,</if>
+            <if test="cron != null">cron,</if>
+            <if test="defaultCron != null">default_cron,</if>
+            <if test="financialStatus != null and financialStatus != ''">financial_status,</if>
+            <if test="purchasePlatform != null and purchasePlatform != ''">purchase_platform,</if>
+            <if test="purchaseTime != null">purchase_time,</if>
+            <if test="confirmTime != null">confirm_time,</if>
+            <if test="holdingTime != null">holding_time,</if>
+            <if test="expirationDate != null">expiration_date,</if>
+            <if test="redemptionTime != null">Redemption_time,</if>
+            <if test="amount != null and amount != ''">amount,</if>
+            <if test="yield != null">yield,</if>
+            <if test="redemptionPath != null and redemptionPath != ''">redemption_path,</if>
+            <if test="profit != null">profit,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="wxTaskId != null">#{wxTaskId},</if>
+            <if test="financialProductName != null and financialProductName != ''">#{financialProductName},</if>
+            <if test="financialGroup != null">#{financialGroup},</if>
+            <if test="cron != null">#{cron},</if>
+            <if test="defaultCron != null">#{defaultCron},</if>
+            <if test="financialStatus != null and financialStatus != ''">#{financialStatus},</if>
+            <if test="purchasePlatform != null and purchasePlatform != ''">#{purchasePlatform},</if>
+            <if test="purchaseTime != null">#{purchaseTime},</if>
+            <if test="confirmTime != null">#{confirmTime},</if>
+            <if test="holdingTime != null">#{holdingTime},</if>
+            <if test="expirationDate != null">#{expirationDate},</if>
+            <if test="redemptionTime != null">#{redemptionTime},</if>
+            <if test="amount != null and amount != ''">#{amount},</if>
+            <if test="yield != null">#{yield},</if>
+            <if test="redemptionPath != null and redemptionPath != ''">#{redemptionPath},</if>
+            <if test="profit != null">#{profit},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFinancialRecord" parameterType="FinancialRecord">
+        update financial_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="wxTaskId != null">wx_task_id = #{wxTaskId},</if>
+            <if test="financialProductName != null and financialProductName != ''">financial_product_name = #{financialProductName},</if>
+            <if test="financialGroup != null">financial_group = #{financialGroup},</if>
+            <if test="cron != null">cron = #{cron},</if>
+            <if test="defaultCron != null">default_cron = #{defaultCron},</if>
+            <if test="financialStatus != null and financialStatus != ''">financial_status = #{financialStatus},</if>
+            <if test="purchasePlatform != null and purchasePlatform != ''">purchase_platform = #{purchasePlatform},</if>
+            purchase_time = #{purchaseTime},
+            confirm_time = #{confirmTime},
+            <if test="holdingTime != null">holding_time = #{holdingTime},</if>
+            expiration_date = #{expirationDate},
+            Redemption_time = #{redemptionTime},
+            <if test="amount != null and amount != ''">amount = #{amount},</if>
+            <if test="yield != null">yield = #{yield},</if>
+            <if test="redemptionPath != null and redemptionPath != ''">redemption_path = #{redemptionPath},</if>
+            <if test="profit != null">profit = #{profit},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where financial_record_id = #{financialRecordId}
+    </update>
+
+    <delete id="deleteFinancialRecordByFinancialRecordId" parameterType="Long">
+        delete from financial_record where financial_record_id = #{financialRecordId}
+    </delete>
+
+    <delete id="deleteFinancialRecordByFinancialRecordIds" parameterType="String">
+        delete from financial_record where financial_record_id in
+        <foreach item="financialRecordId" collection="array" open="(" separator="," close=")">
+            #{financialRecordId}
+        </foreach>
+    </delete>
+
+    <select id="selectListById" parameterType="java.lang.Long" resultMap="FinancialRecordResult">
+        <include refid="selectFinancialRecordVo"/>
+        where financial_status !='2'
+        <if test="maxId != null">
+            and financial_record_id > #{maxId}
+        </if>
+        order by financial_record_id
+    </select>
+
+
+</mapper>

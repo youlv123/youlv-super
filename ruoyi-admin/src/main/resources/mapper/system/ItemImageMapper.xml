@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ItemImageMapper">
+
+    <resultMap type="ItemImageDTO" id="ItemImageResult">
+        <result property="imageId"    column="image_id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="imageName"    column="image_name"    />
+        <result property="imageSize"    column="image_size"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="objectKey"    column="object_key"    />
+        <result property="uploadPlatform"    column="upload_platform"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectItemImageVo">
+        select image_id, item_id, image_name, image_size, image_url, object_key, upload_platform, created_by, created_date, updated_by, updated_date, del_flag from item_image
+    </sql>
+
+    <select id="selectItemImageList" parameterType="ItemImageDTO" resultMap="ItemImageResult">
+        <include refid="selectItemImageVo"/>
+        <where>
+        </where>
+    </select>
+
+    <select id="selectItemImageByImageId" parameterType="Long" resultMap="ItemImageResult">
+        <include refid="selectItemImageVo"/>
+        where image_id = #{imageId}
+    </select>
+
+    <select id="selectItemImageByItemId" parameterType="Long" resultMap="ItemImageResult">
+        <include refid="selectItemImageVo"/>
+        where item_id = #{itemId} and del_flag ='0' order by created_date desc
+    </select>
+
+    <select id="selectBatchByItemId" parameterType="Long" resultMap="ItemImageResult">
+        <include refid="selectItemImageVo"/>
+        where item_id in
+        <foreach item="itemId" collection="itemIds" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </select>
+
+    <insert id="insertItemImage" parameterType="ItemImageDTO" useGeneratedKeys="true" keyProperty="imageId">
+        insert into item_image
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="imageName != null">image_name,</if>
+            <if test="imageSize != null">image_size,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="objectKey != null">object_key,</if>
+            <if test="uploadPlatform != null">upload_platform,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="imageName != null">#{imageName},</if>
+            <if test="imageSize != null">#{imageSize},</if>
+            <if test="imageUrl != null">#{imageUrl},</if>
+            <if test="objectKey != null">#{objectKey},</if>
+            <if test="uploadPlatform != null">#{uploadPlatform},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateItemImage" parameterType="ItemImageDTO">
+        update item_image
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="imageName != null">image_name = #{imageName},</if>
+            <if test="imageSize != null">image_size = #{imageSize},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="objectKey != null">object_key = #{objectKey},</if>
+            <if test="uploadPlatform != null">upload_platform = #{uploadPlatform},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where image_id = #{imageId}
+    </update>
+
+    <update id="updateItemImageByItemId" parameterType="String">
+        update item_image
+        set del_flag='1' where item_id in
+        <foreach item="itemId" collection="array" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </update>
+
+    <delete id="deleteItemImageByItemId" parameterType="Long">
+        delete from item_image where item_id in
+        <foreach item="itemId" collection="itemIds" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteItemImageByImageId" parameterType="Long">
+        delete from item_image where image_id = #{imageId}
+    </delete>
+
+    <delete id="deleteItemImageByImageIds" parameterType="String">
+        delete from item_image where image_id in
+        <foreach item="imageId" collection="array" open="(" separator="," close=")">
+            #{imageId}
+        </foreach>
+    </delete>
+</mapper>

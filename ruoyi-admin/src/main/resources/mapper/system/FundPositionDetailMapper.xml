@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FundPositionDetailMapper">
+
+    <resultMap type="FundPositionDetail" id="FundPositionDetailResult">
+        <result property="fundDetailId"    column="fund_detail_id"    />
+        <result property="wxTaskId"    column="wx_task_id"    />
+        <result property="financialProductName"    column="financial_product_name"    />
+        <result property="financialProductCode"    column="financial_product_code"    />
+        <result property="buyPrincipal"    column="buy_principal"    />
+        <result property="amount"    column="amount"    />
+        <result property="buyFee"    column="buy_fee"    />
+        <result property="buyNetValue"    column="buy_net_value"    />
+        <result property="totalShares"    column="total_shares"    />
+        <result property="remainingShares"    column="remaining_shares"    />
+        <result property="positionStatus"    column="position_status"    />
+        <result property="financialGroup"    column="financial_group"    />
+        <result property="cron"    column="cron"    />
+        <result property="financialStatus"    column="financial_status"    />
+        <result property="purchasePlatform"    column="purchase_platform"    />
+        <result property="purchaseTime"    column="purchase_time"    />
+        <result property="confirmTime"    column="confirm_time"    />
+        <result property="holdingTime"    column="holding_time"    />
+        <result property="expirationDate"    column="expiration_date"    />
+        <result property="yield"    column="yield"    />
+        <result property="redemptionPath"    column="redemption_path"    />
+        <result property="profit"    column="profit"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectFundPositionDetailVo">
+        select fund_detail_id, wx_task_id, financial_product_name, financial_product_code, buy_principal, amount, buy_fee, buy_net_value, total_shares, remaining_shares, position_status, financial_group, cron, financial_status, purchase_platform, purchase_time, confirm_time, holding_time, expiration_date, yield, redemption_path, profit, remark, created_by, created_date, updated_by, updated_date from fund_position_detail
+    </sql>
+
+    <select id="selectFundPositionDetailList" parameterType="FundPositionDetail" resultMap="FundPositionDetailResult">
+        <include refid="selectFundPositionDetailVo"/>
+        <where>
+            <if test="financialProductName != null  and financialProductName != ''"> and financial_product_name like concat('%', #{financialProductName}, '%')</if>
+            <if test="financialProductCode != null  and financialProductCode != ''"> and financial_product_code = #{financialProductCode}</if>
+            <if test="positionStatus != null "> and position_status = #{positionStatus}</if>
+            <if test="financialGroup != null  and financialGroup != ''"> and financial_group = #{financialGroup}</if>
+            <if test="financialStatus != null  and financialStatus != ''"> and financial_status = #{financialStatus}</if>
+            <if test="purchasePlatform != null  and purchasePlatform != ''"> and purchase_platform like concat('%', #{purchasePlatform}, '%')</if>
+            <if test="params != null and params.beginPurchaseTime != null and params.beginPurchaseTime != '' and params.endPurchaseTime != null and params.endPurchaseTime != ''"> and purchase_time between #{params.beginPurchaseTime} and #{params.endPurchaseTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFundPositionDetailByFundDetailId" parameterType="Long" resultMap="FundPositionDetailResult">
+        <include refid="selectFundPositionDetailVo"/>
+        where fund_detail_id = #{fundDetailId}
+    </select>
+
+    <insert id="insertFundPositionDetail" parameterType="FundPositionDetail" useGeneratedKeys="true" keyProperty="fundDetailId">
+        insert into fund_position_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="wxTaskId != null">wx_task_id,</if>
+            <if test="financialProductName != null and financialProductName != ''">financial_product_name,</if>
+            <if test="financialProductCode != null">financial_product_code,</if>
+            <if test="buyPrincipal != null">buy_principal,</if>
+            <if test="amount != null">amount,</if>
+            <if test="buyFee != null">buy_fee,</if>
+            <if test="buyNetValue != null">buy_net_value,</if>
+            <if test="totalShares != null">total_shares,</if>
+            <if test="remainingShares != null">remaining_shares,</if>
+            <if test="positionStatus != null">position_status,</if>
+            <if test="financialGroup != null and financialGroup != ''">financial_group,</if>
+            <if test="cron != null">cron,</if>
+            <if test="financialStatus != null and financialStatus != ''">financial_status,</if>
+            <if test="purchasePlatform != null and purchasePlatform != ''">purchase_platform,</if>
+            <if test="purchaseTime != null">purchase_time,</if>
+            <if test="confirmTime != null">confirm_time,</if>
+            <if test="holdingTime != null">holding_time,</if>
+            <if test="expirationDate != null">expiration_date,</if>
+            <if test="yield != null">yield,</if>
+            <if test="redemptionPath != null">redemption_path,</if>
+            <if test="profit != null">profit,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="wxTaskId != null">#{wxTaskId},</if>
+            <if test="financialProductName != null and financialProductName != ''">#{financialProductName},</if>
+            <if test="financialProductCode != null">#{financialProductCode},</if>
+            <if test="buyPrincipal != null">#{buyPrincipal},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="buyFee != null">#{buyFee},</if>
+            <if test="buyNetValue != null">#{buyNetValue},</if>
+            <if test="totalShares != null">#{totalShares},</if>
+            <if test="remainingShares != null">#{remainingShares},</if>
+            <if test="positionStatus != null">#{positionStatus},</if>
+            <if test="financialGroup != null and financialGroup != ''">#{financialGroup},</if>
+            <if test="cron != null">#{cron},</if>
+            <if test="financialStatus != null and financialStatus != ''">#{financialStatus},</if>
+            <if test="purchasePlatform != null and purchasePlatform != ''">#{purchasePlatform},</if>
+            <if test="purchaseTime != null">#{purchaseTime},</if>
+            <if test="confirmTime != null">#{confirmTime},</if>
+            <if test="holdingTime != null">#{holdingTime},</if>
+            <if test="expirationDate != null">#{expirationDate},</if>
+            <if test="yield != null">#{yield},</if>
+            <if test="redemptionPath != null">#{redemptionPath},</if>
+            <if test="profit != null">#{profit},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFundPositionDetail" parameterType="FundPositionDetail">
+        update fund_position_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="wxTaskId != null">wx_task_id = #{wxTaskId},</if>
+            <if test="financialProductName != null and financialProductName != ''">financial_product_name = #{financialProductName},</if>
+            <if test="financialProductCode != null">financial_product_code = #{financialProductCode},</if>
+            <if test="buyPrincipal != null">buy_principal = #{buyPrincipal},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="buyFee != null">buy_fee = #{buyFee},</if>
+            <if test="buyNetValue != null">buy_net_value = #{buyNetValue},</if>
+            <if test="totalShares != null">total_shares = #{totalShares},</if>
+            <if test="remainingShares != null">remaining_shares = #{remainingShares},</if>
+            <if test="positionStatus != null">position_status = #{positionStatus},</if>
+            <if test="financialGroup != null and financialGroup != ''">financial_group = #{financialGroup},</if>
+            <if test="cron != null">cron = #{cron},</if>
+            <if test="financialStatus != null and financialStatus != ''">financial_status = #{financialStatus},</if>
+            <if test="purchasePlatform != null and purchasePlatform != ''">purchase_platform = #{purchasePlatform},</if>
+            <if test="purchaseTime != null">purchase_time = #{purchaseTime},</if>
+            <if test="confirmTime != null">confirm_time = #{confirmTime},</if>
+            <if test="holdingTime != null">holding_time = #{holdingTime},</if>
+            <if test="expirationDate != null">expiration_date = #{expirationDate},</if>
+            <if test="yield != null">yield = #{yield},</if>
+            <if test="redemptionPath != null">redemption_path = #{redemptionPath},</if>
+            <if test="profit != null">profit = #{profit},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where fund_detail_id = #{fundDetailId}
+    </update>
+
+    <delete id="deleteFundPositionDetailByFundDetailId" parameterType="Long">
+        delete from fund_position_detail where fund_detail_id = #{fundDetailId}
+    </delete>
+
+    <delete id="deleteFundPositionDetailByFundDetailIds" parameterType="String">
+        delete from fund_position_detail where fund_detail_id in
+        <foreach item="fundDetailId" collection="array" open="(" separator="," close=")">
+            #{fundDetailId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FundTransactionRelationMapper">
+    
+    <resultMap type="FundTransactionRelation" id="FundTransactionRelationResult">
+        <result property="fundTransactionRelationId"    column="fund_transaction_relation_id"    />
+        <result property="transactionId"    column="transaction_id"    />
+        <result property="fundDetailId"    column="fund_detail_id"    />
+        <result property="transType"    column="trans_type"    />
+        <result property="transShares"    column="trans_shares"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedDate"    column="updated_date"    />
+    </resultMap>
+
+    <sql id="selectFundTransactionRelationVo">
+        select fund_transaction_relation_id, transaction_id, fund_detail_id, trans_type, trans_shares, created_by, created_date, updated_by, updated_date from fund_transaction_relation
+    </sql>
+
+    <select id="selectFundTransactionRelationList" parameterType="FundTransactionRelation" resultMap="FundTransactionRelationResult">
+        <include refid="selectFundTransactionRelationVo"/>
+        <where>  
+            <if test="transactionId != null "> and transaction_id = #{transactionId}</if>
+            <if test="fundDetailId != null "> and fund_detail_id = #{fundDetailId}</if>
+            <if test="transType != null  and transType != ''"> and trans_type = #{transType}</if>
+            <if test="transShares != null "> and trans_shares = #{transShares}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectFundTransactionRelationByFundTransactionRelationId" parameterType="Long" resultMap="FundTransactionRelationResult">
+        <include refid="selectFundTransactionRelationVo"/>
+        where fund_transaction_relation_id = #{fundTransactionRelationId}
+    </select>
+        
+    <insert id="insertFundTransactionRelation" parameterType="FundTransactionRelation" useGeneratedKeys="true" keyProperty="fundTransactionRelationId">
+        insert into fund_transaction_relation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="transactionId != null">transaction_id,</if>
+            <if test="fundDetailId != null">fund_detail_id,</if>
+            <if test="transType != null">trans_type,</if>
+            <if test="transShares != null">trans_shares,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedDate != null">updated_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="transactionId != null">#{transactionId},</if>
+            <if test="fundDetailId != null">#{fundDetailId},</if>
+            <if test="transType != null">#{transType},</if>
+            <if test="transShares != null">#{transShares},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedDate != null">#{updatedDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFundTransactionRelation" parameterType="FundTransactionRelation">
+        update fund_transaction_relation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="transactionId != null">transaction_id = #{transactionId},</if>
+            <if test="fundDetailId != null">fund_detail_id = #{fundDetailId},</if>
+            <if test="transType != null">trans_type = #{transType},</if>
+            <if test="transShares != null">trans_shares = #{transShares},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedDate != null">updated_date = #{updatedDate},</if>
+        </trim>
+        where fund_transaction_relation_id = #{fundTransactionRelationId}
+    </update>
+
+    <delete id="deleteFundTransactionRelationByFundTransactionRelationId" parameterType="Long">
+        delete from fund_transaction_relation where fund_transaction_relation_id = #{fundTransactionRelationId}
+    </delete>
+
+    <delete id="deleteFundTransactionRelationByFundTransactionRelationIds" parameterType="String">
+        delete from fund_transaction_relation where fund_transaction_relation_id in 
+        <foreach item="fundTransactionRelationId" collection="array" open="(" separator="," close=")">
+            #{fundTransactionRelationId}
+        </foreach>
+    </delete>
+</mapper>

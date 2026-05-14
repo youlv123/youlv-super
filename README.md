@@ -4,3 +4,9 @@
 4、安装前端环境，参考前端readme，前端根目录有package.json，启动即可![img_1.png](img_1.png)
 
 https://docs.spring.io/spring-boot/docs/
+
+springboot升级4.0
+https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide
+
+easyexcel官网
+https://easyexcel.opensource.alibaba.com/

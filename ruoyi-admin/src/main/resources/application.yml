@@ -216,4 +216,5 @@ qywx:
 
 timeTask:
   flag: true
-
+chatbot:
+  base-url: http://127.0.0.1:8084  # 指向我刚写的模拟服务

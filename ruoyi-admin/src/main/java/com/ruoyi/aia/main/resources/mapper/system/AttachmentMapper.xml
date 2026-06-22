@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.aia.main.java.com.ruoyi.system.mapper.AttachmentMapper">
+
+    <resultMap type="Attachment" id="AttachmentResult">
+        <result property="id"    column="id"    />
+        <result property="conversationId"    column="conversation_id"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="contentType"    column="content_type"    />
+        <result property="ossKey"    column="oss_key"    />
+        <result property="ossUrl"    column="oss_url"    />
+        <result property="hasSensitiveInfo"    column="has_sensitive_info"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAttachmentVo">
+        select id, conversation_id, file_name, file_size, content_type, oss_key, oss_url, has_sensitive_info, is_deleted, created_by, updated_by, create_time, update_time from attachment
+    </sql>
+
+    <select id="selectAttachmentList" parameterType="Attachment" resultMap="AttachmentResult">
+        <include refid="selectAttachmentVo"/>
+        <where>
+            <if test="conversationId != null  and conversationId != ''"> and conversation_id = #{conversationId}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileSize != null  and fileSize != ''"> and file_size = #{fileSize}</if>
+            <if test="contentType != null  and contentType != ''"> and content_type = #{contentType}</if>
+            <if test="ossKey != null  and ossKey != ''"> and oss_key = #{ossKey}</if>
+            <if test="ossUrl != null  and ossUrl != ''"> and oss_url = #{ossUrl}</if>
+            <if test="hasSensitiveInfo != null "> and has_sensitive_info = #{hasSensitiveInfo}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+        </where>
+    </select>
+
+    <select id="selectAttachmentById" parameterType="Long" resultMap="AttachmentResult">
+        <include refid="selectAttachmentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAttachment" parameterType="Attachment" useGeneratedKeys="true" keyProperty="id">
+        insert into attachment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="conversationId != null and conversationId != ''">conversation_id,</if>
+            <if test="fileName != null and fileName != ''">file_name,</if>
+            <if test="fileSize != null and fileSize != ''">file_size,</if>
+            <if test="contentType != null and contentType != ''">content_type,</if>
+            <if test="ossKey != null and ossKey != ''">oss_key,</if>
+            <if test="ossUrl != null and ossUrl != ''">oss_url,</if>
+            <if test="hasSensitiveInfo != null">has_sensitive_info,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="conversationId != null and conversationId != ''">#{conversationId},</if>
+            <if test="fileName != null and fileName != ''">#{fileName},</if>
+            <if test="fileSize != null and fileSize != ''">#{fileSize},</if>
+            <if test="contentType != null and contentType != ''">#{contentType},</if>
+            <if test="ossKey != null and ossKey != ''">#{ossKey},</if>
+            <if test="ossUrl != null and ossUrl != ''">#{ossUrl},</if>
+            <if test="hasSensitiveInfo != null">#{hasSensitiveInfo},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAttachment" parameterType="Attachment">
+        update attachment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="conversationId != null and conversationId != ''">conversation_id = #{conversationId},</if>
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileSize != null and fileSize != ''">file_size = #{fileSize},</if>
+            <if test="contentType != null and contentType != ''">content_type = #{contentType},</if>
+            <if test="ossKey != null and ossKey != ''">oss_key = #{ossKey},</if>
+            <if test="ossUrl != null and ossUrl != ''">oss_url = #{ossUrl},</if>
+            <if test="hasSensitiveInfo != null">has_sensitive_info = #{hasSensitiveInfo},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAttachmentById" parameterType="Long">
+        delete from attachment where id = #{id}
+    </delete>
+
+    <delete id="deleteAttachmentByIds" parameterType="String">
+        delete from attachment where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

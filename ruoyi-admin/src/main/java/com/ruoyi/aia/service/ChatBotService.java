@@ -98,4 +98,43 @@ public class ChatBotService {
                 .retrieve()
                 .bodyToMono(StopChatResp.class);
     }
+
+    import reactor.core.publisher.Flux;
+import java.time.Duration;
+
+// 在获取到原本的数据 Flux (dataFlux) 后，混入心跳包
+public Flux<ServerSentEvent<String>> addHeartbeat(Flux<ServerSentEvent<String>> dataFlux) {
+    // 1. 定义心跳流：每 15 秒发出一个心跳事件
+    Flux<ServerSentEvent<String>> heartbeatFlux = Flux.interval(Duration.ofSeconds(15))
+            .map(tick -> ServerSentEvent.<String>builder()
+                    .event("ping")           // 事件类型为 ping
+                    .data("{\"type\":\"ping\"}") // 心跳内容
+                    .build());
+
+    // 2. 将心跳流与实际数据流合并（任何一方有数据就往下发）
+    return Flux.merge(dataFlux, heartbeatFlux);
+}
+
+public Flux<ServerSentEvent<String>> streamChat(ChatReq req){
+
+    Flux<ServerSentEvent<String>> aiFlux =
+            callChatbotStream(req);
+
+
+    Flux<ServerSentEvent<String>> heartbeat =
+            Flux.interval(Duration.ofSeconds(15))
+                .map(i ->
+                    ServerSentEvent.<String>builder()
+                    .event("ping")
+                    .data("")
+                    .build()
+                );
+
+
+    return Flux.merge(
+            aiFlux,
+            heartbeat
+    );
+}
+
 }
